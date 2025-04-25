@@ -18,6 +18,35 @@
 .hero-content{
     background-color: #6699ff;
 }
+
+/*chữ chạy*/
+.marquee-wrapper {
+    overflow: hidden;
+    background-color: #6699ff;
+    padding: 10px 0;
+    color: white;
+    border-radius: 8px;
+}
+
+.marquee {
+    white-space: nowrap;
+    display: inline-block;
+    animation: marquee-left 15s linear infinite;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+@keyframes marquee-left {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/**/
+
 .hero-content h1 {
     font-size: 30px;
     margin-bottom: 0px;
