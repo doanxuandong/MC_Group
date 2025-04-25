@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inside - MC GROUP</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="news.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <img src=".\src\logo_mc_group.png" alt="MC Group Logo" class="logo">
+        <div class="header-container">
+            <div class="icon-container">
+                <a href="index.html"><i class="fa-solid fa-house header-icon"></i></a>
+                <span class="icon-text">Home</span>
+            </div>
+            <div class="icon-container">
+                <i class="fa-solid fa-lightbulb header-icon"></i>
+                <span class="icon-text">Ideas</span>
+            </div>
+            <div class="icon-container">
+                <i class="fa-solid fa-ranking-star top-logo"></i>
+                <span class="top-logo-text">RANKING</span>
+            </div>
+            <div class="icon-container">
+                <i class="fa-solid fa-envelope header-icon"></i>
+                <span class="icon-text">Inside</span>
+            </div>
+            <div class="icon-container">
+                <i class="fa-solid fa-newspaper header-icon"></i>
+                <span class="icon-text">News</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="inside-main">
+        <div class="hero-section">
+            <div class="hero-content">
+                <h1>MC GROUP NEWS</h1>
+                <p>Khám phá thông tin nội bộ và cập nhật mới nhất</p>
+            </div>
+        </div>
+
+        <div class="features-section">
+            <div class="feature-card">
+                <i class="fas fa-users"></i>
+                <h3>Nhân sự</h3>
+                <p>Thông tin về nhân sự và tuyển dụng</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Báo cáo</h3>
+                <p>Báo cáo và thống kê hoạt động</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-calendar-alt"></i>
+                <h3>Sự kiện</h3>
+                <p>Lịch sự kiện và hoạt động</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-file-alt"></i>
+                <h3>Tài liệu</h3>
+                <p>Tài liệu và hướng dẫn nội bộ</p>
+            </div>
+        </div>
+
+        <div class="news-section">
+            <h2>Tin tức nội bộ mới nhất</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <img src="src/news.jpg" alt="News 1">
+                    <div class="news-content">
+                        <h3>Tiêu đề tin tức 1</h3>
+                        <p>Mô tả ngắn về nội dung tin tức...</p>
+                        <span class="date">24/04/2024</span>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <img src="src/news.jpg" alt="News 2">
+                    <div class="news-content">
+                        <h3>Tiêu đề tin tức 2</h3>
+                        <p>Mô tả ngắn về nội dung tin tức...</p>
+                        <span class="date">24/04/2024</span>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <img src="src/news.jpg" alt="News 3">
+                    <div class="news-content">
+                        <h3>Tiêu đề tin tức 3</h3>
+                        <p>Mô tả ngắn về nội dung tin tức...</p>
+                        <span class="date">24/04/2024</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="resources-section">
+            <h2>Tài nguyên</h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <i class="fas fa-book"></i>
+                    <h3>Thư viện</h3>
+                    <p>Truy cập thư viện tài liệu</p>
+                </div>
+                <div class="resource-card">
+                    <i class="fas fa-video"></i>
+                    <h3>Video</h3>
+                    <p>Xem video hướng dẫn</p>
+                </div>
+                <div class="resource-card">
+                    <i class="fas fa-download"></i>
+                    <h3>Downloads</h3>
+                    <p>Tải xuống tài liệu</p>
+                </div>
+                <div class="resource-card">
+                    <i class="fas fa-question-circle"></i>
+                    <h3>Hỗ trợ</h3>
+                    <p>Liên hệ hỗ trợ</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="back-to-top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </div>
+
+    <script>
+        const backToTop = document.querySelector('.back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 100) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>
