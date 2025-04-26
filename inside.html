@@ -3,9 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>MC - Inside</title>
+    <link rel="stylesheet" href="inside.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
+    <header>
+        <img src=".\src\mc_white.png" alt="MC Group Logo" class="logo">
+        <div class="header-container">
+            <div class="icon-container">
+              <i class="fa-solid fa-house header-icon"></i>
+              <span class="icon-text">Home</span>
+            </div>
+            <div class="icon-container">
+              <i class="fa-solid fa-lightbulb header-icon"></i>
+              <span class="icon-text">Ideas</span>
+            </div>
+          <div class="icon-container">
+            <i class="fa-solid fa-ranking-star top-logo"></i>
+            <span class="top-logo-text">RANKING</span>
+          </div>
+            <div class="icon-container">
+              <i class="fa-solid fa-envelope header-icon"></i>
+              <span class="icon-text">Inside</span>
+            </div>
+            <div class="icon-container">
+              <a href="news.html">
+                <i class="fa-solid fa-newspaper header-icon"></i>
+              </a>
+              <span class="icon-text">News</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="back-to-top">
+        <i class="fa-solid fa-arrow-up"></i>
+      </div>
+
+      <div class="feedback-section">
+        <div class="feedback-container">
+            <div class="feedback-image">
+                <img src="./src/mcblue.jpg" alt="Feedback">
+            </div>
+            <div class="feedback-form">
+                <form id="feedbackForm">
+                    <div class="form-group full-width">
+                        <input type="text" id="fullname" name="fullname" placeholder="Họ và tên" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" id="phone" name="phone" placeholder="Số điện thoại">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <select id="department" name="department" required>
+                            <option value="" disabled selected>Đơn vị *</option>
+                            <option value="it">Phòng IT</option>
+                            <option value="hr">Phòng Nhân sự</option>
+                            <option value="marketing">Phòng Marketing</option>
+                            <option value="sales">Phòng Kinh doanh</option>
+                            <option value="sales">Phòng không không quân</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select id="feedbackType" name="feedbackType" required>
+                            <option value="" disabled selected>Loại ý kiến *</option>
+                            <option value="suggestion">Đề xuất cải tiến</option>
+                            <option value="complaint">Phản ánh vấn đề</option>
+                            <option value="praise">Khen ngợi</option>
+                            <option value="other">Khác</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="feedback" name="feedback" placeholder="Ý kiến của bạn *" required></textarea>
+                        <div class="character-count">0 / 5000</div>
+                    </div>
+                    <div class="form-group file-upload">
+                        <label for="fileUpload" class="file-upload-label">
+                            <i class="fas fa-paperclip"></i>
+                            <span>Kéo thả tệp tin của bạn ở đây hoặc chọn tệp tin.</span>
+                        </label>
+                        <input type="file" id="fileUpload" name="fileUpload" multiple>
+                    </div>
+                    <button type="submit" class="submit-button">Gửi ý kiến</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        //Nút Back to Top
+        window.addEventListener('scroll', () => {
+          if (window.pageYOffset > 100) {
+            backToTop.classList.add('visible');
+          } else {
+            backToTop.classList.remove('visible');
+          }
+        });
     
+        backToTop.addEventListener('click', () => {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        });
+    </script>
 </body>
 </html>
