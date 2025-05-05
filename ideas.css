@@ -22,9 +22,9 @@ header {
   width: 100%;
   z-index: 1000;
   height: 70px;
-  display: flex;
+  display: flex !important;
   align-items: center;
-  position: relative;
+  position: fixed;
   overflow: hidden;
 }
 
