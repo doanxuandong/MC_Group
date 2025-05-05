@@ -45,6 +45,9 @@
         <div class="feedback-container">
             <div class="feedback-image">
                 <img src="./src/mcblue.jpg" alt="Feedback">
+                <div class="feedback-note">
+                  <em>Chúng tôi lắng nghe mọi ý kiến đóng góp mang tính xây dựng của các bạn</em>
+                </div>
             </div>
             <div class="feedback-form">
                 <form id="feedbackForm">
@@ -78,6 +81,11 @@
                             <option value="other">Khác</option>
                         </select>
                     </div>
+                    <div class="form-group" id="subFeedbackTypeGroup" style="display:none;">
+                        <select id="subFeedbackType" name="subFeedbackType">
+                            <!-- Các option con sẽ được thêm bằng JS -->
+                        </select>
+                    </div>
                     <div class="form-group">
                         <textarea id="feedback" name="feedback" placeholder="Ý kiến của bạn *" required></textarea>
                         <div class="character-count">0 / 5000</div>
@@ -86,6 +94,7 @@
                         <label for="fileUpload" class="file-upload-label">
                             <i class="fas fa-paperclip"></i>
                             <span>Kéo thả tệp tin của bạn ở đây hoặc chọn tệp tin.</span>
+                            <span class="file-upload-name" style="display:block;margin-top:6px;color:#1456a0;font-size:14px;"></span>
                         </label>
                         <input type="file" id="fileUpload" name="fileUpload" multiple>
                     </div>
@@ -97,6 +106,7 @@
 
     <script>
         //Nút Back to Top
+        const backToTop = document.querySelector('.back-to-top');
         window.addEventListener('scroll', () => {
           if (window.pageYOffset > 100) {
             backToTop.classList.add('visible');
@@ -110,6 +120,83 @@
             top: 0,
             behavior: 'smooth'
           });
+        });
+
+        window.addEventListener('DOMContentLoaded', function() {
+            var feedbackType = document.getElementById('feedbackType');
+            var subGroup = document.getElementById('subFeedbackTypeGroup');
+            var subSelect = document.getElementById('subFeedbackType');
+
+            var subOptions = {
+                suggestion: [
+                    { value: 'admin', text: 'Cải cách hành chính' },
+                    { value: 'hr', text: 'Bộ máy nhân sự' },
+                    { value: 'process', text: 'Quy trình làm việc' },
+                    { value: 'other', text: 'Khác' }
+                ],
+                complaint: [
+                    { value: 'workplace', text: 'Môi trường làm việc' },
+                    { value: 'policy', text: 'Chính sách' },
+                    { value: 'other', text: 'Khác' }
+                ],
+                praise: [
+                    { value: 'team', text: 'Đồng nghiệp' },
+                    { value: 'manager', text: 'Quản lý' },
+                    { value: 'company', text: 'Công ty' }
+                ]
+            };
+
+            feedbackType.addEventListener('change', function() {
+                var value = this.value;
+                if (subOptions[value]) {
+                    subSelect.innerHTML = subOptions[value].map(function(opt) {
+                        return '<option value="' + opt.value + '">' + opt.text + '</option>';
+                    }).join('');
+                    subGroup.style.display = '';
+                } else {
+                    subGroup.style.display = 'none';
+                    subSelect.innerHTML = '';
+                }
+            });
+
+            // Xử lý kéo thả file
+            var fileUploadLabel = document.querySelector('.file-upload-label');
+            var fileInput = document.getElementById('fileUpload');
+            var fileNameSpan = fileUploadLabel ? fileUploadLabel.querySelector('.file-upload-name') : null;
+            function updateFileName(files) {
+                if (fileNameSpan) {
+                    if (files && files.length > 0) {
+                        var names = [];
+                        for (var i = 0; i < files.length; i++) {
+                            names.push(files[i].name);
+                        }
+                        fileNameSpan.textContent = 'Đã chọn: ' + names.join(', ');
+                    } else {
+                        fileNameSpan.textContent = '';
+                    }
+                }
+            }
+            if (fileUploadLabel && fileInput) {
+                fileInput.addEventListener('change', function() {
+                    updateFileName(fileInput.files);
+                });
+                fileUploadLabel.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    fileUploadLabel.style.borderColor = '#6699ff';
+                });
+                fileUploadLabel.addEventListener('dragleave', function(e) {
+                    e.preventDefault();
+                    fileUploadLabel.style.borderColor = '#ddd';
+                });
+                fileUploadLabel.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    fileUploadLabel.style.borderColor = '#ddd';
+                    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                        fileInput.files = e.dataTransfer.files;
+                        updateFileName(e.dataTransfer.files);
+                    }
+                });
+            }
         });
     </script>
 </body>
