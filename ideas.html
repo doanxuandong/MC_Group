@@ -50,7 +50,107 @@
         </div>
     </header>
 
-    <main style="margin-top:90px;max-width:700px;width:100%;margin-left:auto;margin-right:auto;">
+    <div class="sidebar-left">
+      <ul>
+        <li><a href="#"><i class="fa-solid fa-fire"></i> Tin hot</a></li>
+        <li><a href="#"><i class="fa-solid fa-building"></i> Phòng ban</a></li>
+        <li><a href="#"><i class="fa-solid fa-bookmark"></i> Tin đã lưu</a></li>
+        <li><a href="#"><i class="fa-solid fa-image"></i> Hình ảnh</a></li>
+        <li><a href="#"><i class="fa-solid fa-video"></i> Video</a></li>
+        <li><a href="#"><i class="fa-solid fa-paper-plane"></i> Tin đã đăng</a></li>
+        <li><a href="#"><i class="fa-solid fa-eye"></i> Đang theo dõi</a></li>
+        <li><a href="#"><i class="fa-solid fa-clock-rotate-left"></i> Kỷ niệm</a></li>
+        <li><a href="#"><i class="fa-solid fa-calendar-days"></i> Sự kiện</a></li>
+        <li><a href="#"><i class="fa-solid fa-cake-candles"></i> Sinh nhật</a></li>
+        <li><a href="#"><i class="fa-solid fa-location-dot"></i> Địa chỉ</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-right">
+      <div class="notification-box">
+        <h3>Thông báo</h3>
+        <div class="notification-section">
+          <div class="notification-title">Sự kiện công ty</div>
+          <ul class="notification-list">
+            <li>
+              <div class="notification-avatar"><i class="fa-solid fa-calendar-days"></i></div>
+              <div class="notification-content">
+                <div class="notification-main">Teambuilding 2024</div>
+                <div class="notification-desc">Tham gia sự kiện ngày 20/5 tại Vũng Tàu</div>
+                <div class="notification-time">2 ngày nữa</div>
+              </div>
+            </li>
+            <li>
+              <div class="notification-avatar"><i class="fa-solid fa-calendar-check"></i></div>
+              <div class="notification-content">
+                <div class="notification-main">Họp tổng kết quý 2</div>
+                <div class="notification-desc">Phòng họp lớn, 8h sáng 25/5</div>
+                <div class="notification-time">5 ngày nữa</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="notification-section">
+          <div class="notification-title">Tin mới đăng</div>
+          <ul class="notification-list">
+            <li>
+              <div class="notification-avatar"><i class="fa-solid fa-newspaper"></i></div>
+              <div class="notification-content">
+                <div class="notification-main">MC Group tuyển dụng thực tập sinh IT</div>
+                <div class="notification-time">1 giờ trước</div>
+              </div>
+            </li>
+            <li>
+              <div class="notification-avatar"><i class="fa-solid fa-lightbulb"></i></div>
+              <div class="notification-content">
+                <div class="notification-main">Ý tưởng cải tiến quy trình làm việc</div>
+                <div class="notification-time">3 giờ trước</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="notification-section">
+          <div class="notification-title">Tin đang theo dõi</div>
+          <ul class="notification-list">
+            <li>
+              <div class="notification-avatar"><i class="fa-solid fa-eye"></i></div>
+              <div class="notification-content">
+                <div class="notification-main">Bình chọn ý tưởng tháng 5</div>
+                <div class="notification-time">3 ngày trước</div>
+              </div>
+            </li>
+            <li>
+              <div class="notification-avatar"><i class="fa-solid fa-bookmark"></i></div>
+              <div class="notification-content">
+                <div class="notification-main">Tin đã lưu: Chia sẻ kinh nghiệm làm việc nhóm</div>
+                <div class="notification-time">5 ngày trước</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="notification-section">
+          <div class="notification-title">Sinh nhật</div>
+          <ul class="notification-list">
+            <li>
+              <div class="notification-avatar"><i class="fa-solid fa-cake-candles"></i></div>
+              <div class="notification-content">
+                <div class="notification-main">Hôm nay là sinh nhật của Đoàn Xuân Đông</div>
+                <div class="notification-time">Hôm nay</div>
+              </div>
+            </li>
+            <li>
+              <div class="notification-avatar"><i class="fa-solid fa-cake-candles"></i></div>
+              <div class="notification-content">
+                <div class="notification-main">Ngày mai cũng là sinh nhật của Đoàn Xuân Đông</div>
+                <div class="notification-time">Ngày mai</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="ideas-layout">
+      <main style="margin-top:90px;max-width:700px;width:100%;margin-left:auto;margin-right:auto;">
         <section>
             <!-- Ô nhập nhỏ để mở modal -->
             <div id="openPostModal" class="fb-mini-input">
@@ -119,7 +219,8 @@
                 <!-- Các bài đăng sẽ xuất hiện ở đây -->
             </section>
         </section>
-    </main>
+      </main>
+    </div>
 
     <div class="back-to-top">
         <i class="fa-solid fa-arrow-up"></i>

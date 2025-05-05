@@ -209,7 +209,7 @@ nav {
   background-position: center;
   background-repeat: no-repeat;
   height: 80vh;
-  border-radius: 50px;
+  border-radius: 10px;
   color: #fff;
   cursor: pointer;
   flex: 0.5;
