@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MC - Ranking</title>
+  <link rel="stylesheet" href="ranking.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <img src="./src/mc_white.png" alt="MC Group Logo" class="logo">
+    <div class="header-container">
+        <div class="icon-container">
+          <a href="index.html"><i class="fa-solid fa-house header-icon"></i></a>
+          <span class="icon-text">Home</span>
+        </div>
+        <div class="icon-container">
+          <a href="ideas.html"><i class="fa-solid fa-lightbulb header-icon"></i></a>
+          <span class="icon-text">Ideas</span>
+        </div>
+        <div class="icon-container">
+          <a href="ranking.html"><i class="fa-solid fa-ranking-star top-logo"></i></a>
+          <span class="top-logo-text">RANKING</span>
+        </div>
+        <div class="icon-container">
+          <a href="inside.html"><i class="fa-solid fa-envelope header-icon"></i></a>
+          <span class="icon-text">Inside</span>
+        </div>
+        <div class="icon-container">
+          <a href="news.html">
+            <i class="fa-solid fa-newspaper header-icon"></i>
+          </a>
+          <span class="icon-text">News</span>
+        </div>
+      </div>
+  </header>
+
+  <div class="main-container">
+    <div class="content">
+      <h2 class="ranking-title">Bảng Xếp Hạng Thành Viên Nổi Bật</h2>
+      <div class="search-candidates">
+        <div class="search-bar-group">
+          <div class="search-input-wrap">
+            <input type="text" class="search-input" placeholder="Tìm kiếm theo tên">
+            <button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+          </div>
+          <select class="search-select">
+            <option>Hạng mục đề cử</option>
+            <option>Lãnh đạo</option>
+            <option>Nhân viên xuất sắc</option>
+            <option>Đổi mới sáng tạo</option>
+          </select>
+          <select class="search-select">
+            <option>Đơn vị công tác</option>
+            <option>Phòng IT</option>
+            <option>Phòng Marketing</option>
+            <option>Phòng Kinh doanh</option>
+          </select>
+        </div>
+      </div>
+      <h2 class="top50-title">TOP 50 CÁ NHÂN XUẤT SẮC NHẤT</h2>
+      <div class="ranking-list fpt-style">
+        <div class="ranking-card fpt-card">
+          <div class="ranking-avatar-wrap silver-ellipse">
+            <img src="./src/tom.jpg" alt="Tom" class="ranking-avatar fpt-avatar">
+          </div>
+          <h3 class="ranking-name">Trần Thị Lan</h3>
+          <div class="ranking-role">Chuyên viên Marketing</div>
+          <div class="ranking-desc">"Sáng tạo, năng động, luôn mang lại những ý tưởng mới cho phòng Marketing."</div>
+          <div class="ranking-stats">
+            <span><i class="fa-solid fa-trophy"></i> 2nd</span>
+            <span><i class="fa-solid fa-thumbs-up"></i> 280</span>
+          </div>
+        </div>
+        <div class="ranking-card fpt-card first-card">
+          <div class="ranking-avatar-wrap first-gold">
+            <img src="./src/tom.jpg" alt="Tom" class="ranking-avatar fpt-avatar first-avatar">
+          </div>
+          <h3 class="ranking-name">Nguyễn Văn Tom</h3>
+          <div class="ranking-role">Trưởng nhóm phát triển</div>
+          <div class="ranking-desc">"Luôn dẫn đầu trong các dự án đổi mới sáng tạo, truyền cảm hứng cho cả nhóm."</div>
+          <div class="ranking-stats">
+            <span><i class="fa-solid fa-trophy"></i> 1st</span>
+            <span><i class="fa-solid fa-thumbs-up"></i> 320</span>
+          </div>
+        </div>
+        <div class="ranking-card fpt-card">
+          <div class="ranking-avatar-wrap bronze-ellipse">
+            <img src="./src/tom.jpg" alt="Tom" class="ranking-avatar fpt-avatar">
+          </div>
+          <h3 class="ranking-name">Lê Minh Quân</h3>
+          <div class="ranking-role">Nhân viên Kinh doanh</div>
+          <div class="ranking-desc">"Đạt doanh số cao nhất quý, luôn hỗ trợ đồng nghiệp hết mình."</div>
+          <div class="ranking-stats">
+            <span><i class="fa-solid fa-trophy"></i> 3rd</span>
+            <span><i class="fa-solid fa-thumbs-up"></i> 250</span>
+          </div>
+        </div>
+      </div>
+      <div class="ranking-list normal-list">
+        <div class="ranking-card normal-card">
+          <div class="ranking-avatar-wrap">
+            <img src="./src/tom.jpg" alt="Tom" class="ranking-avatar fpt-avatar">
+          </div>
+          <h3 class="ranking-name">Nguyễn Văn A</h3>
+          <div class="ranking-role">Nhân viên IT</div>
+          <div class="ranking-desc">"Luôn hỗ trợ đồng nghiệp, hoàn thành tốt công việc được giao."</div>
+          <div class="ranking-stats">
+            <span><i class="fa-solid fa-thumbs-up"></i> 120</span>
+          </div>
+        </div>
+        <div class="ranking-card normal-card">
+          <div class="ranking-avatar-wrap">
+            <img src="./src/tom.jpg" alt="Tom" class="ranking-avatar fpt-avatar">
+          </div>
+          <h3 class="ranking-name">Trần Văn B</h3>
+          <div class="ranking-role">Nhân viên Marketing</div>
+          <div class="ranking-desc">"Sáng tạo, năng động, luôn mang lại những ý tưởng mới."</div>
+          <div class="ranking-stats">
+            <span><i class="fa-solid fa-thumbs-up"></i> 98</span>
+          </div>
+        </div>
+        <div class="ranking-card normal-card">
+          <div class="ranking-avatar-wrap">
+            <img src="./src/tom.jpg" alt="Tom" class="ranking-avatar fpt-avatar">
+          </div>
+          <h3 class="ranking-name">Lê Thị C</h3>
+          <div class="ranking-role">Nhân viên Kinh doanh</div>
+          <div class="ranking-desc">"Đạt doanh số tốt, luôn hỗ trợ khách hàng tận tình."</div>
+          <div class="ranking-stats">
+            <span><i class="fa-solid fa-thumbs-up"></i> 110</span>
+          </div>
+        </div>
+        <div class="ranking-card normal-card">
+          <div class="ranking-avatar-wrap">
+            <img src="./src/tom.jpg" alt="Tom" class="ranking-avatar fpt-avatar">
+          </div>
+          <h3 class="ranking-name">Phạm Văn D</h3>
+          <div class="ranking-role">Nhân viên HR</div>
+          <div class="ranking-desc">"Luôn quan tâm, hỗ trợ nhân sự công ty."</div>
+          <div class="ranking-stats">
+            <span><i class="fa-solid fa-thumbs-up"></i> 87</span>
+          </div>
+        </div>
+        <div class="ranking-card normal-card">
+          <div class="ranking-avatar-wrap">
+            <img src="./src/tom.jpg" alt="Tom" class="ranking-avatar fpt-avatar">
+          </div>
+          <h3 class="ranking-name">Ngô Thị E</h3>
+          <div class="ranking-role">Nhân viên IT</div>
+          <div class="ranking-desc">"Chuyên môn tốt, luôn hoàn thành deadline."</div>
+          <div class="ranking-stats">
+            <span><i class="fa-solid fa-thumbs-up"></i> 105</span>
+          </div>
+        </div>
+        <div class="ranking-card normal-card">
+          <div class="ranking-avatar-wrap">
+            <img src="./src/tom.jpg" alt="Tom" class="ranking-avatar fpt-avatar">
+          </div>
+          <h3 class="ranking-name">Vũ Văn F</h3>
+          <div class="ranking-role">Nhân viên Marketing</div>
+          <div class="ranking-desc">"Luôn mang lại năng lượng tích cực cho team."</div>
+          <div class="ranking-stats">
+            <span><i class="fa-solid fa-thumbs-up"></i> 92</span>
+          </div>
+        </div>
+        <div class="ranking-card normal-card">
+          <div class="ranking-avatar-wrap">
+            <img src="./src/tom.jpg" alt="Tom" class="ranking-avatar fpt-avatar">
+          </div>
+          <h3 class="ranking-name">Đặng Thị G</h3>
+          <div class="ranking-role">Nhân viên Kinh doanh</div>
+          <div class="ranking-desc">"Khách hàng hài lòng, đồng nghiệp quý mến."</div>
+          <div class="ranking-stats">
+            <span><i class="fa-solid fa-thumbs-up"></i> 101</span>
+          </div>
+        </div>
+        <div class="ranking-card normal-card">
+          <div class="ranking-avatar-wrap">
+            <img src="./src/tom.jpg" alt="Tom" class="ranking-avatar fpt-avatar">
+          </div>
+          <h3 class="ranking-name">Bùi Văn H</h3>
+          <div class="ranking-role">Nhân viên HR</div>
+          <div class="ranking-desc">"Luôn hỗ trợ, tư vấn nhân sự tận tâm."</div>
+          <div class="ranking-stats">
+            <span><i class="fa-solid fa-thumbs-up"></i> 89</span>
+          </div>
+        </div>
+        <div class="ranking-card normal-card">
+          <div class="ranking-avatar-wrap">
+            <img src="./src/tom.jpg" alt="Tom" class="ranking-avatar fpt-avatar">
+          </div>
+          <h3 class="ranking-name">Nguyễn Thị I</h3>
+          <div class="ranking-role">Nhân viên IT</div>
+          <div class="ranking-desc">"Luôn học hỏi, phát triển bản thân."</div>
+          <div class="ranking-stats">
+            <span><i class="fa-solid fa-thumbs-up"></i> 95</span>
+          </div>
+        </div>
+        <div class="ranking-card normal-card">
+          <div class="ranking-avatar-wrap">
+            <img src="./src/tom.jpg" alt="Tom" class="ranking-avatar fpt-avatar">
+          </div>
+          <h3 class="ranking-name">Phan Văn K</h3>
+          <div class="ranking-role">Nhân viên Marketing</div>
+          <div class="ranking-desc">"Đóng góp nhiều ý tưởng sáng tạo cho phòng."</div>
+          <div class="ranking-stats">
+            <span><i class="fa-solid fa-thumbs-up"></i> 90</span>
+          </div>
+        </div>
+        <div class="ranking-card normal-card">
+          <div class="ranking-avatar-wrap">
+            <img src="./src/tom.jpg" alt="Tom" class="ranking-avatar fpt-avatar">
+          </div>
+          <h3 class="ranking-name">Lê Thị L</h3>
+          <div class="ranking-role">Nhân viên Kinh doanh</div>
+          <div class="ranking-desc">"Luôn hoàn thành chỉ tiêu, hỗ trợ team tốt."</div>
+          <div class="ranking-stats">
+            <span><i class="fa-solid fa-thumbs-up"></i> 99</span>
+          </div>
+        </div>
+        <div class="ranking-card normal-card">
+          <div class="ranking-avatar-wrap">
+            <img src="./src/tom.jpg" alt="Tom" class="ranking-avatar fpt-avatar">
+          </div>
+          <h3 class="ranking-name">Trịnh Văn M</h3>
+          <div class="ranking-role">Nhân viên HR</div>
+          <div class="ranking-desc">"Tận tâm, trách nhiệm với công việc."</div>
+          <div class="ranking-stats">
+            <span><i class="fa-solid fa-thumbs-up"></i> 85</span>
+          </div>
+        </div>
+        <div class="ranking-card normal-card">
+          <div class="ranking-avatar-wrap">
+            <img src="./src/tom.jpg" alt="Tom" class="ranking-avatar fpt-avatar">
+          </div>
+          <h3 class="ranking-name">Trịnh Văn M</h3>
+          <div class="ranking-role">Nhân viên HR</div>
+          <div class="ranking-desc">"Tận tâm, trách nhiệm với công việc."</div>
+          <div class="ranking-stats">
+            <span><i class="fa-solid fa-thumbs-up"></i> 85</span>
+          </div>
+        </div>
+        <div class="ranking-card normal-card">
+          <div class="ranking-avatar-wrap">
+            <img src="./src/tom.jpg" alt="Tom" class="ranking-avatar fpt-avatar">
+          </div>
+          <h3 class="ranking-name">Trịnh Văn M</h3>
+          <div class="ranking-role">Nhân viên HR</div>
+          <div class="ranking-desc">"Tận tâm, trách nhiệm với công việc."</div>
+          <div class="ranking-stats">
+            <span><i class="fa-solid fa-thumbs-up"></i> 85</span>
+          </div>
+        </div>
+        <div class="ranking-card normal-card">
+          <div class="ranking-avatar-wrap">
+            <img src="./src/tom.jpg" alt="Tom" class="ranking-avatar fpt-avatar">
+          </div>
+          <h3 class="ranking-name">Trịnh Văn M</h3>
+          <div class="ranking-role">Nhân viên HR</div>
+          <div class="ranking-desc">"Tận tâm, trách nhiệm với công việc."</div>
+          <div class="ranking-stats">
+            <span><i class="fa-solid fa-thumbs-up"></i> 85</span>
+          </div>
+        </div>
+        <div class="ranking-card normal-card">
+          <div class="ranking-avatar-wrap">
+            <img src="./src/tom.jpg" alt="Tom" class="ranking-avatar fpt-avatar">
+          </div>
+          <h3 class="ranking-name">Trịnh Văn M</h3>
+          <div class="ranking-role">Nhân viên HR</div>
+          <div class="ranking-desc">"Tận tâm, trách nhiệm với công việc."</div>
+          <div class="ranking-stats">
+            <span><i class="fa-solid fa-thumbs-up"></i> 85</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </div>
+
+  <script>
+    // Nút Back to Top
+    const backToTop = document.querySelector('.back-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 100) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  </script>
+</body>
+</html>
