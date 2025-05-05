@@ -24,7 +24,7 @@ header {
   height: 70px;
   display: flex;
   align-items: center;
-  position: fixed;
+  position: relative;
   overflow: hidden;
 }
 
