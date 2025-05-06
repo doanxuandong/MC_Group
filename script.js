@@ -6,7 +6,7 @@ setInterval(() => {
     removeActiveClasses();
     panels[currentIndex].classList.add('active');
     currentIndex = (currentIndex + 1) % panels.length;
-}, 3000);
+}, 1000);
 
 panels.forEach(panel => {
     panel.addEventListener('click', () => {

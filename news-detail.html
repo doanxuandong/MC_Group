@@ -8,38 +8,156 @@
   <meta property="og:title" content="Chi tiết tin tức - MC Group">
   <meta property="og:description" content="Chi tiết bài viết tin tức nội bộ MC Group, cập nhật thông tin mới nhất.">
   <meta property="og:image" content="news-image.jpg">
+  <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="news-detail.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-  <div class="news-detail-container">
-    <nav class="breadcrumb">
-      <a href="news-all.html">Tin tức</a> <span>/</span> <span class="current">Chi tiết tin</span>
-    </nav>
-    <article class="news-detail-card">
-      <img src="./src/ngang.jpg" alt="Ảnh minh họa tin tức" class="news-detail-img">
-      <h1 class="news-detail-title">Tiêu đề tin tức nổi bật chuẩn SEO</h1>
-      <div class="news-detail-meta">
-        <span><i class="fa-regular fa-calendar"></i> 24/04/2024</span>
-        <span><i class="fa-regular fa-user"></i> Nguyễn Văn A</span>
-        <span><i class="fa-solid fa-building"></i> Phòng IT</span>
+  <header>
+    <img src=".\src\mc_white.png" alt="MC Group Logo" class="logo">
+    <div class="header-container">
+        <div class="icon-container">
+          <a href="index.html"><i class="fa-solid fa-house header-icon"></i></a>
+          <span class="icon-text">Home</span>
+        </div>
+        <div class="icon-container">
+          <a href="ideas.html"><i class="fa-solid fa-lightbulb header-icon"></i></a>
+          <span class="icon-text">Ideas</span>
+        </div>
+      <div class="icon-container">
+        <a href="ranking.html"><i class="fa-solid fa-ranking-star top-logo"></i></a>
+        <span class="top-logo-text">RANKING</span>
       </div>
-      <div class="news-detail-content">
-        <p><strong>Mô tả ngắn:</strong> Đây là đoạn mô tả ngắn về nội dung tin tức, giúp người đọc nhanh chóng nắm bắt thông tin chính.</p>
-        <p>Nội dung chi tiết bài viết tin tức sẽ được trình bày ở đây. Bạn có thể thêm các đoạn văn, hình ảnh, tiêu đề phụ (h2, h3), danh sách, trích dẫn... để bài viết phong phú và chuẩn SEO.</p>
-        <h2>Tiêu đề phụ nổi bật (H2)</h2>
-        <p>Đây là đoạn nội dung mở rộng cho phần tiêu đề phụ, giúp tăng điểm SEO và trải nghiệm người đọc.</p>
-        <ul>
-          <li>Ý chính 1 của bài viết</li>
-          <li>Ý chính 2 của bài viết</li>
-          <li>Ý chính 3 của bài viết</li>
-        </ul>
-        <blockquote>Đây là một trích dẫn nổi bật trong bài viết, giúp tăng tính thuyết phục và chuyên nghiệp.</blockquote>
-        <h3>Tiêu đề phụ nhỏ (H3)</h3>
-        <p>Thêm các đoạn nội dung chi tiết, hình ảnh minh họa, hoặc liên kết nội bộ để tăng sức mạnh SEO.</p>
+        <div class="icon-container">
+          <a href="inside.html"><i class="fa-solid fa-envelope header-icon"></i></a>
+          <span class="icon-text">Inside</span>
+        </div>
+        <div class="icon-container">
+          <a href="news.html">
+            <i class="fa-solid fa-newspaper header-icon"></i>
+          </a>
+          <span class="icon-text">News</span>
+        </div>
       </div>
-      <a href="news-all.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Quay lại danh sách</a>
-    </article>
+    </div>
+  </header>
+
+  <div class="back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
   </div>
+  <script>
+    //Nút Back to Top
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 100) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  </script>
+
+  <div class="news-detail-layout">
+    <aside class="sidebar-left">
+      <div class="share-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-x-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#"><i class="far fa-envelope"></i></a>
+        <a href="#"><i class="far fa-comment"></i></a>
+        <a href="#"><i class="far fa-copy"></i></a>
+      </div>
+    </aside>
+    <main class="news-detail-main">
+      <div class="news-detail-container">
+        <nav class="breadcrumb">
+          <a href="news-all.html">Tin tức</a> <span>/</span> <span class="current">Chi tiết tin</span>
+        </nav>
+        <article class="news-detail-card">
+          <img src="./src/ngang.jpg" alt="Ảnh minh họa tin tức" class="news-detail-img">
+          <h1 class="news-detail-title">Tiêu đề tin tức nổi bật chuẩn SEO</h1>
+          <div class="news-detail-meta">
+            <span><i class="fa-regular fa-calendar"></i> 24/04/2024</span>
+            <span><i class="fa-regular fa-user"></i> Nguyễn Văn A</span>
+            <span><i class="fa-solid fa-building"></i> Phòng IT</span>
+          </div>
+          <div class="news-detail-content">
+            <p><strong>Mô tả ngắn:</strong> Đây là đoạn mô tả ngắn về nội dung tin tức, giúp người đọc nhanh chóng nắm bắt thông tin chính.</p>
+            <p>Nội dung chi tiết bài viết tin tức sẽ được trình bày ở đây. Bạn có thể thêm các đoạn văn, hình ảnh, tiêu đề phụ (h2, h3), danh sách, trích dẫn... để bài viết phong phú và chuẩn SEO.</p>
+            <h2>Tiêu đề phụ nổi bật (H2)</h2>
+            <p>Đây là đoạn nội dung mở rộng cho phần tiêu đề phụ, giúp tăng điểm SEO và trải nghiệm người đọc.</p>
+            <ul>
+              <li>Ý chính 1 của bài viết</li>
+              <li>Ý chính 2 của bài viết</li>
+              <li>Ý chính 3 của bài viết</li>
+            </ul>
+            <blockquote>Đây là một trích dẫn nổi bật trong bài viết, giúp tăng tính thuyết phục và chuyên nghiệp.</blockquote>
+            <h3>Tiêu đề phụ nhỏ (H3)</h3>
+            <p>Thêm các đoạn nội dung chi tiết, hình ảnh minh họa, hoặc liên kết nội bộ để tăng sức mạnh SEO.</p>
+          </div>
+          <a href="news-all.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Quay lại danh sách</a>
+        </article>
+      </div>
+    </main>
+    <aside class="sidebar-right">
+      <div class="news-popular">
+        <div class="popular-title">Xem nhiều</div>
+        <ul class="popular-list">
+          <li>
+            <a href="#">
+              <img src="./src/test.jpg" alt="">
+              <div>
+                <div class="popular-title-item">MC_Group là tổ chức nào?</div>
+                <div class="popular-comments"><i class="far fa-comment"></i> 15</div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <img src="./src/test.jpg" alt="">
+              <div>
+                <div class="popular-title-item">MC_Group là tổ chức nào?</div>
+                <div class="popular-comments"><i class="far fa-comment"></i> 8</div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <img src="./src/test.jpg" alt="">
+              <div>
+                <div class="popular-title-item">MC_Group là tổ chức nào?</div>
+                <div class="popular-comments"><i class="far fa-comment"></i> 77</div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <img src="./src/test.jpg" alt="">
+              <div>
+                <div class="popular-title-item">MC_Group là tổ chức nào?</div>
+                <div class="popular-comments"><i class="far fa-comment"></i> 79</div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <img src="./src/test.jpg" alt="">
+              <div>
+                <div class="popular-title-item">MC_Group là tổ chức nào?</div>
+                <div class="popular-comments"><i class="far fa-comment"></i> 95</div>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
 </body>
 </html> 
