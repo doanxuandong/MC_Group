@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Quản trị hệ thống MC Group</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <aside class="admin-sidebar">
+            <div class="admin-logo">
+                <i class="fa-solid fa-user-shield"></i> MC Admin
+            </div>
+            <nav class="admin-menu">
+                <ul>
+                    <li class="active" data-section="posts"><i class="fa-solid fa-file-alt"></i> Quản lý bài viết</li>
+                    <li data-section="users"><i class="fa-solid fa-users"></i> Quản lý tài khoản</li>
+                    <!-- <li data-section="ideas"><i class="fa-solid fa-lightbulb"></i> Quản lý bài đăng</li> -->
+                    <li data-section="ranking"><i class="fa-solid fa-trophy"></i> Quản lý BXH</li>
+                    <li data-section="mailbox"><i class="fa-solid fa-inbox"></i> Quản lý hòm thư</li>
+                    <li data-section="news"><i class="fa-solid fa-newspaper"></i> Quản lý tin tức</li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="admin-main">
+            <div class="admin-title-row">
+                <h1 class="admin-title">Quản lý bài viết</h1>
+                <button class="add-btn">+ Thêm</button>
+            </div>
+            <div class="admin-section" id="section-posts">
+                <div class="admin-filter-bar">
+                    <input type="text" class="admin-filter-input" placeholder="Tiêu đề...">
+                    <input type="text" class="admin-filter-input" placeholder="Người đăng...">
+                    <select class="admin-filter-select">
+                        <option value="">Phòng ban</option>
+                        <option value="it">Phòng IT</option>
+                        <option value="hr">Phòng Nhân sự</option>
+                        <option value="marketing">Phòng Marketing</option>
+                        <option value="sales">Phòng Kinh doanh</option>
+                    </select>
+                    <input type="date" class="admin-filter-input" placeholder="Ngày...">
+                    <button class="admin-filter-btn"><i class="fa-solid fa-filter"></i> Lọc</button>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr><th>ID</th><th>Tiêu đề</th><th>Người đăng</th><th>Phòng ban</th><th>Ngày đăng</th><th>Hành động</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>Bài viết mẫu 1</td><td>Nguyễn Văn A</td><td>Phòng IT</td><td>01/05/2024</td><td><button class="action-btn delete-btn"><i class="fa-solid fa-trash"></i></button><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button><button class="action-btn detail-btn"><i class="fa-solid fa-eye"></i></button></td></tr>
+                        <tr><td>2</td><td>Bài viết mẫu 2</td><td>Trần Thị B</td><td>Phòng Marketing</td><td>02/05/2024</td><td><button class="action-btn delete-btn"><i class="fa-solid fa-trash"></i></button><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button><button class="action-btn detail-btn"><i class="fa-solid fa-eye"></i></button></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="admin-title-row" style="display:none;">
+                <h1 class="admin-title">Quản lý tài khoản</h1>
+                <button class="add-btn">+ Thêm</button>
+            </div>
+            <div class="admin-section" id="section-users" style="display:none;">
+                <div class="admin-filter-bar">
+                    <input type="text" class="admin-filter-input" placeholder="Tìm theo tên...">
+                    <select class="admin-filter-select">
+                        <option value="">Phòng ban</option>
+                        <option value="it">Phòng IT</option>
+                        <option value="hr">Phòng Nhân sự</option>
+                        <option value="marketing">Phòng Marketing</option>
+                        <option value="sales">Phòng Kinh doanh</option>
+                    </select>
+                    <input type="email" class="admin-filter-input" placeholder="Email...">
+                    <select class="admin-filter-select">
+                        <option value="">Vai trò</option>
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                    </select>
+                    <input type="date" class="admin-filter-input" placeholder="Ngày...">
+                    <button class="admin-filter-btn"><i class="fa-solid fa-filter"></i> Lọc</button>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr><th>ID</th><th>Tên người dùng</th><th>Phòng ban</th><th>Email</th><th>Mật khẩu</th><th>Ngày cấp tài khoản</th><th>Vai trò</th><th>Hành động</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>Nguyễn Văn A</td><td>Phòng IT</td><td>a@email.com</td><td>********</td><td>01/04/2024</td><td>Admin</td><td><button class="action-btn delete-btn"><i class="fa-solid fa-trash"></i></button><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button><button class="action-btn detail-btn"><i class="fa-solid fa-eye"></i></button></td></tr>
+                        <tr><td>2</td><td>Trần Thị B</td><td>Phòng Marketing</td><td>b@email.com</td><td>********</td><td>15/04/2024</td><td>User</td><td><button class="action-btn delete-btn"><i class="fa-solid fa-trash"></i></button><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button><button class="action-btn detail-btn"><i class="fa-solid fa-eye"></i></button></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- <div class="admin-title-row" style="display:none;">
+                <h1 class="admin-title">Quản lý bài đăng</h1>
+                <button class="add-btn">+ Thêm</button>
+            </div>
+            <div class="admin-section" id="section-ideas" style="display:none;">
+                <div class="admin-filter-bar">
+                    <input type="text" class="admin-filter-input" placeholder="Tìm theo tên...">
+                    <select class="admin-filter-select">
+                        <option value="">Phòng ban</option>
+                        <option value="it">Phòng IT</option>
+                        <option value="hr">Phòng Nhân sự</option>
+                        <option value="marketing">Phòng Marketing</option>
+                        <option value="sales">Phòng Kinh doanh</option>
+                    </select>
+                    <input type="date" class="admin-filter-input" placeholder="Ngày...">
+                    <button class="admin-filter-btn"><i class="fa-solid fa-filter"></i> Lọc</button>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr><th>ID</th><th>Ý tưởng</th><th>Người gửi</th><th>Ngày gửi</th><th>Hành động</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>Ý tưởng 1</td><td>Nguyễn Văn A</td><td>05/05/2024</td><td><button class="delete-btn">Xóa</button> <button class="edit-btn">Sửa</button>  <button class="detail-btn">Chi tiết</button></td></tr>
+                        <tr><td>2</td><td>Ý tưởng 2</td><td>Trần Thị B</td><td>06/05/2024</td><td><button class="delete-btn">Xóa</button> <button class="edit-btn">Sửa</button> <button class="detail-btn">Chi tiết</button></td></tr>
+                    </tbody>
+                </table>
+            </div> -->
+            <div class="admin-title-row" style="display:none;">
+                <h1 class="admin-title">Quản lý bảng xếp hạng</h1>
+                <button class="add-btn">+ Thêm</button>
+            </div>
+            <div class="admin-section" id="section-ranking" style="display:none;">
+                <div class="admin-filter-bar">
+                    <input type="text" class="admin-filter-input" placeholder="Tên bảng xếp hạng...">
+                    <select class="admin-filter-select">
+                        <option value="">Phòng ban</option>
+                        <option value="it">Phòng IT</option>
+                        <option value="hr">Phòng Nhân sự</option>
+                        <option value="marketing">Phòng Marketing</option>
+                        <option value="sales">Phòng Kinh doanh</option>
+                    </select>
+                    <select class="admin-filter-select">
+                        <option value="">Hạng mục đề cử</option>
+                        <option value="nvxuatxac">Nhân viên xuất sắc</option>
+                        <option value="phongbanxuatxac">Phòng ban xuất sắc</option>
+                        <option value="duanxuatxac">Dự án xuất sắc</option>
+                    </select>
+                    <select class="admin-filter-select">
+                        <option value="">Tháng</option>
+                        <option value="1">Tháng 1</option>
+                        <option value="2">Tháng 2</option>
+                        <option value="3">Tháng 3</option>
+                        <option value="4">Tháng 4</option>
+                        <option value="5">Tháng 5</option>
+                        <option value="6">Tháng 6</option>
+                        <option value="7">Tháng 7</option>
+                        <option value="8">Tháng 8</option>
+                        <option value="9">Tháng 9</option>
+                        <option value="10">Tháng 10</option>
+                        <option value="11">Tháng 11</option>
+                        <option value="12">Tháng 12</option>
+                    </select>
+                    <select class="admin-filter-select">
+                        <option value="">Năm</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                    </select>
+                    <button class="admin-filter-btn"><i class="fa-solid fa-filter"></i> Lọc</button>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr><th>ID</th><th>Tên bảng xếp hạng</th><th>Phòng ban</th><th>Hạng mục đề cử</th><th>Tháng</th><th>Năm</th><th>Người tạo</th><th>Hành động</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>Bảng xếp hạng tháng 5</td><td>Phòng IT</td><td>Nhân viên xuất sắc</td><td>5</td><td>2024</td><td>Admin</td><td><button class="action-btn delete-btn"><i class="fa-solid fa-trash"></i></button><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button><button class="action-btn detail-btn"><i class="fa-solid fa-eye"></i></button></td></tr>
+                        <tr><td>1</td><td>Bảng xếp hạng tháng 5</td><td>Phòng IT</td><td>Nhân viên xuất sắc</td><td>5</td><td>2024</td><td>Admin</td><td><button class="action-btn delete-btn"><i class="fa-solid fa-trash"></i></button><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button><button class="action-btn detail-btn"><i class="fa-solid fa-eye"></i></button></td></tr>
+                        <tr><td>2</td><td>Bảng xếp hạng tháng 4</td><td>Phòng Marketing</td><td>Phòng ban xuất sắc</td><td>4</td><td>2024</td><td>Admin</td><td><button class="action-btn delete-btn"><i class="fa-solid fa-trash"></i></button><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button><button class="action-btn detail-btn"><i class="fa-solid fa-eye"></i></button></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="admin-title-row" style="display:none;">
+                <h1 class="admin-title">Quản lý hòm thư</h1>
+                <button class="add-btn">+ Thêm</button>
+            </div>
+            <div class="admin-section" id="section-mailbox" style="display:none;">
+                <div class="admin-filter-bar">
+                    <input type="text" class="admin-filter-input" placeholder="Người gửi...">
+                    <input type="email" class="admin-filter-input" placeholder="Email...">
+                    <input type="tel" class="admin-filter-input" placeholder="Số điện thoại...">
+                    <select class="admin-filter-select">
+                        <option value="">Phòng ban</option>
+                        <option value="it">Phòng IT</option>
+                        <option value="hr">Phòng Nhân sự</option>
+                        <option value="marketing">Phòng Marketing</option>
+                        <option value="sales">Phòng Kinh doanh</option>
+                    </select>
+                    <select class="admin-filter-select">
+                        <option value="">Loại ý kiến</option>
+                        <option value="feedback">Góp ý</option>
+                        <option value="complaint">Khiếu nại</option>
+                        <option value="suggestion">Đề xuất</option>
+                    </select>
+                    <input type="date" class="admin-filter-input" placeholder="Ngày gửi...">
+                    <button class="admin-filter-btn"><i class="fa-solid fa-filter"></i> Lọc</button>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Người gửi</th>
+                            <th>Email</th>
+                            <th>Số điện thoại</th>
+                            <th>Phòng ban</th>
+                            <th>Loại ý kiến</th>
+                            <th>Tệp đính kèm</th>
+                            <th>Ngày gửi</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Nguyễn Văn A</td>
+                            <td>a@email.com</td>
+                            <td>0123456789</td>
+                            <td>Phòng IT</td>
+                            <td>Góp ý</td>
+                            <td>document.pdf</td>
+                            <td>01/05/2024</td>
+                            <td><button class="action-btn delete-btn"><i class="fa-solid fa-trash"></i></button><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button><button class="action-btn detail-btn"><i class="fa-solid fa-eye"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Trần Thị B</td>
+                            <td>b@email.com</td>
+                            <td>0987654321</td>
+                            <td>Phòng Marketing</td>
+                            <td>Đề xuất</td>
+                            <td>proposal.docx</td>
+                            <td>02/05/2024</td>
+                            <td><button class="action-btn delete-btn"><i class="fa-solid fa-trash"></i></button><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button><button class="action-btn detail-btn"><i class="fa-solid fa-eye"></i></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="admin-title-row" style="display:none;">
+                <h1 class="admin-title">Quản lý tin tức</h1>
+                <button class="add-btn">+ Thêm</button>
+            </div>
+            <div class="admin-section" id="section-news" style="display:none;">
+                <div class="admin-filter-bar">
+                    <input type="text" class="admin-filter-input" placeholder="Tiêu đề...">
+                    <input type="text" class="admin-filter-input" placeholder="Người viết...">
+                    <select class="admin-filter-select">
+                        <option value="">Phòng ban</option>
+                        <option value="it">Phòng IT</option>
+                        <option value="hr">Phòng Nhân sự</option>
+                        <option value="marketing">Phòng Marketing</option>
+                        <option value="sales">Phòng Kinh doanh</option>
+                    </select>
+                    <input type="date" class="admin-filter-input" placeholder="Ngày...">
+                    <button class="admin-filter-btn"><i class="fa-solid fa-filter"></i> Lọc</button>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr><th>ID</th><th>Tiêu đề tin tức</th><th>Người viết</th><th>Phòng ban</th><th>Ngày đăng</th><th>Hành động</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>Tin tức 1</td><td>Nguyễn Văn A</td><td>Phòng IT</td><td>03/05/2024</td><td><button class="action-btn delete-btn"><i class="fa-solid fa-trash"></i></button><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button><button class="action-btn detail-btn"><i class="fa-solid fa-eye"></i></button></td></tr>
+                        <tr><td>2</td><td>Tin tức 2</td><td>Trần Thị B</td><td>Phòng Marketing</td><td>04/05/2024</td><td><button class="action-btn delete-btn"><i class="fa-solid fa-trash"></i></button><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button><button class="action-btn detail-btn"><i class="fa-solid fa-eye"></i></button></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    <!-- Modal chi tiết BXH -->
+    <div id="bxhDetailModal" class="modal-bxh" style="display:none;position:fixed;z-index:9999;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.25);align-items:center;justify-content:center;">
+        <div class="modal-bxh-content" style="background:#fff;border-radius:14px;max-width:900px;width:96vw;max-height:90vh;overflow:auto;box-shadow:0 4px 24px rgba(0,0,0,0.18);padding:28px 18px 18px 18px;position:relative;">
+            <button id="closeBxhModal" style="position:absolute;top:12px;right:18px;font-size:22px;background:none;border:none;cursor:pointer;color:#1976d2;"><i class="fa-solid fa-xmark"></i></button>
+            <h2 style="text-align:center;color:#1976d2;margin-bottom:18px;">Chi tiết BXH Tháng/Năm</h2>
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên</th>
+                        <th>Phòng ban</th>
+                        <th>Hạng mục đề cử</th>
+                        <th>Tháng/Năm</th>
+                        <th>Avatar</th>
+                        <th>Vị thứ</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Nguyễn Văn A</td><td>Phòng IT</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/men/1.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>1</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>2</td><td>Trần Thị B</td><td>Phòng Marketing</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/women/2.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>2</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>3</td><td>Lê Văn C</td><td>Phòng IT</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/men/3.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>3</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>4</td><td>Phạm Thị D</td><td>Phòng Nhân sự</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/women/4.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>4</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>5</td><td>Ngô Văn E</td><td>Phòng IT</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/men/5.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>5</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>6</td><td>Đặng Thị F</td><td>Phòng Marketing</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/women/6.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>6</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>7</td><td>Vũ Văn G</td><td>Phòng IT</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/men/7.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>7</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>8</td><td>Trịnh Thị H</td><td>Phòng Nhân sự</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/women/8.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>8</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>9</td><td>Phan Văn I</td><td>Phòng IT</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/men/9.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>9</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>10</td><td>Đỗ Thị K</td><td>Phòng Marketing</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/women/10.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>10</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>11</td><td>Nguyễn Văn L</td><td>Phòng IT</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/men/11.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>11</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>12</td><td>Trần Thị M</td><td>Phòng Nhân sự</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/women/12.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>12</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>13</td><td>Phạm Văn N</td><td>Phòng IT</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/men/13.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>13</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>14</td><td>Ngô Thị O</td><td>Phòng Marketing</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/women/14.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>14</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>15</td><td>Đặng Văn P</td><td>Phòng IT</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/men/15.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>15</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Export to Excel button, mỗi section một nút riêng -->
+    <div class="export-excel-btn" id="export-excel-posts" style="display:none;"><i class="fa-solid fa-file-excel"></i> Xuất Excel</div>
+    <div class="export-excel-btn" id="export-excel-users" style="display:none;"><i class="fa-solid fa-file-excel"></i> Xuất Excel</div>
+    <div class="export-excel-btn" id="export-excel-ranking" style="display:none;"><i class="fa-solid fa-file-excel"></i> Xuất Excel</div>
+    <div class="export-excel-btn" id="export-excel-mailbox" style="display:none;"><i class="fa-solid fa-file-excel"></i> Xuất Excel</div>
+    <div class="export-excel-btn" id="export-excel-news" style="display:none;"><i class="fa-solid fa-file-excel"></i> Xuất Excel</div>
+    <script>
+        // Chuyển tab sidebar
+        const titleRows = document.querySelectorAll('.admin-title-row');
+        const sections = document.querySelectorAll('.admin-section');
+        document.querySelectorAll('.admin-menu li').forEach((item, idx) => {
+            item.onclick = function() {
+                document.querySelectorAll('.admin-menu li').forEach(li => li.classList.remove('active'));
+                this.classList.add('active');
+                sections.forEach(sec => sec.style.display = 'none');
+                titleRows.forEach(row => row.style.display = 'none');
+                const section = this.getAttribute('data-section');
+                document.getElementById('section-' + section).style.display = 'block';
+                titleRows[idx].style.display = 'flex';
+            }
+        });
+        // Mặc định hiển thị title-row đầu tiên
+        if(titleRows.length) titleRows[0].style.display = 'flex';
+        // Hiển thị modal chi tiết BXH khi bấm icon xem chi tiết
+        const bxhDetailModal = document.getElementById('bxhDetailModal');
+        document.querySelectorAll('#section-ranking .detail-btn').forEach(btn => {
+            btn.onclick = function(e) {
+                e.preventDefault();
+                bxhDetailModal.style.display = 'flex';
+            }
+        });
+        document.getElementById('closeBxhModal').onclick = function() {
+            bxhDetailModal.style.display = 'none';
+        };
+        window.addEventListener('click', function(e) {
+            if (e.target === bxhDetailModal) bxhDetailModal.style.display = 'none';
+        });
+        // Hiển thị nút export excel đúng với section đang mở
+        function showExportBtn(section) {
+            document.querySelectorAll('.export-excel-btn').forEach(btn => btn.style.display = 'none');
+            if(section) {
+                const btn = document.getElementById('export-excel-' + section);
+                if(btn) btn.style.display = 'block';
+            }
+        }
+        document.querySelectorAll('.admin-menu li').forEach(item => {
+            item.addEventListener('click', function() {
+                showExportBtn(this.getAttribute('data-section'));
+            });
+        });
+        // Hiển thị mặc định cho mục đầu tiên
+        showExportBtn(document.querySelector('.admin-menu li.active')?.getAttribute('data-section'));
+    </script>
+</body>
+</html>

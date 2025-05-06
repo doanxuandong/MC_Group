@@ -48,6 +48,11 @@
               <span class="icon-text">News</span>
             </div>
         </div>
+        <div class="header-login">
+          <a href="login.html" title="Đăng nhập">
+            <i class="fa-solid fa-user"></i>
+          </a>
+        </div>
     </header>
 
     <div class="sidebar-left">
@@ -353,11 +358,17 @@
             post.className = 'confession-post';
             post.style = 'background:#fff;padding:18px 16px 12px 16px;border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,0.06);margin-bottom:24px;';
             post.innerHTML = `
-                <div style="display:flex;align-items:center;margin-bottom:10px;">
-                    <img src='${avatarUrl}' alt='avatar' style='width:40px;height:40px;border-radius:50%;object-fit:cover;margin-right:10px;border:2px solid #6699ff;'>
-                    <div style='display:flex;flex-direction:column;'>
-                        <span style='font-weight:600;font-size:16px;color:#222;'>${name} - ${dept}</span>
-                        <span class='post-time' style='font-size:12px;color:#888;'>Vừa xong</span>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;position:relative;">
+                    <div style="display:flex;align-items:center;">
+                        <img src='${avatarUrl}' alt='avatar' style='width:40px;height:40px;border-radius:50%;object-fit:cover;margin-right:10px;border:2px solid #6699ff;'>
+                        <div style='display:flex;flex-direction:column;'>
+                            <span style='font-weight:600;font-size:16px;color:#222;'>${name} - ${dept}</span>
+                            <span class='post-time' style='font-size:12px;color:#888;'>Vừa xong</span>
+                        </div>
+                    </div>
+                    <div class="post-actions">
+                        <button class="follow-post-btn" title="Theo dõi tin"><i class="fa-regular fa-eye"></i></button>
+                        <button class="save-post-btn" title="Lưu tin"><i class="fa-regular fa-bookmark"></i></button>
                     </div>
                 </div>
                 <div style="font-size:16px;color:#222;white-space:pre-line;">${content}</div>
@@ -379,6 +390,21 @@
                     const span = this.querySelector('span');
                     span.textContent = parseInt(span.textContent) + 1;
                 });
+            });
+            // Save/Follow logic
+            const saveBtn = post.querySelector('.save-post-btn');
+            const followBtn = post.querySelector('.follow-post-btn');
+            saveBtn.addEventListener('click', function() {
+                this.classList.toggle('active');
+                const icon = this.querySelector('i');
+                icon.classList.toggle('fa-regular');
+                icon.classList.toggle('fa-solid');
+            });
+            followBtn.addEventListener('click', function() {
+                this.classList.toggle('active');
+                const icon = this.querySelector('i');
+                icon.classList.toggle('fa-regular');
+                icon.classList.toggle('fa-solid');
             });
             // Comment logic
             const commentBtn = post.querySelector('.comment-btn');
