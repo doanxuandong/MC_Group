@@ -35,6 +35,13 @@ header {
   transition: all 0.3s ease;
   position: relative;
   z-index: 2;
+  opacity: 0;
+  transform: translateY(-100%);
+}
+
+header:hover .logo {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .logo:hover {
@@ -720,22 +727,50 @@ background: #ffe6e6;
 
 .header-login {
   position: absolute;
-  right: 24px;
+  right: 20px;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 1002;
-}
-
-.header-login a {
-  color: #fff;
-  font-size: 26px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  transition: color 0.2s;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+header:hover .header-login {
+  opacity: 1;
+  pointer-events: auto;
+}
+.header-login .header-icon {
+  font-size: 26px;
+  color: white;
+  margin-bottom: 4px;
+  border-radius: 10px;
+  transition: all 0.3s;
+  justify-content: center;
 }
 
-.header-login a:hover {
-  color: #ffd600;
+#icon-login {
+  font-size: 30px;
+}
+.header-login .icon-text {
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  width: auto;
+  min-width: unset;
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+.header-login:hover .header-icon {
+  background: rgba(255,255,255,0.1);
+  color: #e6e6e6;
+  transform: scale(1.15);
 }
 
 .post-actions {

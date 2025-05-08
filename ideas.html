@@ -48,11 +48,10 @@
               <span class="icon-text">News</span>
             </div>
         </div>
-        <div class="header-login">
-          <a href="login.html" title="Đăng nhập">
-            <i class="fa-solid fa-user"></i>
-          </a>
-        </div>
+        <a href="login.html" class="header-login" title="Đăng nhập">
+          <i id="icon-login" class="fa-solid fa-user header-icon"></i>
+          <!-- <span class="icon-text">Login</span> -->
+        </a>
     </header>
 
     <div class="sidebar-left">
@@ -286,7 +285,7 @@
         validateForm();
 
         // Avatar chọn/upload logic
-        let currentAvatar = './src/tom.jpg';
+        let currentAvatar = './image/tom.jpg';
         const selectedAvatar = document.getElementById('selectedAvatar');
         const avatarMenu = document.getElementById('avatarMenu');
         const avatarOptions = () => document.querySelectorAll('.avatar-option');

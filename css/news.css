@@ -34,6 +34,13 @@ header {
     transition: all 0.3s ease;
     position: relative;
     z-index: 2;
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+
+  header:hover .logo {
+    opacity: 1;
+    transform: translateY(0);
   }
   
   .logo:hover {
