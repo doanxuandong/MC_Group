@@ -24,15 +24,15 @@
 <body>
     <header>
         <img src=".\image\mc_white.png" alt="MC Group Logo" class="logo">
-        <span class="welcome-text">MC Confessions!</span>
+        <span class="welcome-text">MC Feed</span>
         <div class="header-container">
             <div class="icon-container">
               <a href="index.html"><i class="fa-solid fa-house header-icon"></i></a>
               <span class="icon-text">Home</span>
             </div>
             <div class="icon-container">
-              <a href="ideas.html"><i class="fa-solid fa-lightbulb header-icon"></i></a>
-              <span class="icon-text">Ideas</span>
+                <a href="ideas.html"><i class="fa-solid fa-comments header-icon"></i></a>
+                <span class="icon-text">Feed</span>
             </div>
             <div class="icon-container">
               <a href="ranking.html"><i class="fa-solid fa-ranking-star top-logo"></i></a>
@@ -439,7 +439,7 @@
                     commentsList.appendChild(li);
                     commentInput.value = '';
                     commentInput.style.height = '36px';
-                    // Like/Dislike logic
+                    // Like/Dislike bình luận logic
                     const likeBtn = actions.querySelector('.comment-like-btn');
                     const dislikeBtn = actions.querySelector('.comment-dislike-btn');
                     const likeCount = actions.querySelector('.like-count');

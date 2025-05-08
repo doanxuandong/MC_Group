@@ -537,20 +537,20 @@ textarea {
   font-size: 2.5rem;
   color: #fff;
   /* font-style: italic; */
-  font-family: 'Pacifico', cursive, 'Segoe Script', 'Comic Sans MS', sans-serif;
+  font-family: sans-serif;
   font-weight: bold;
   letter-spacing: 2px;
   z-index: 10;
   pointer-events: none;
   transition: opacity 0.3s;
   white-space: nowrap;
-  text-shadow:
+  /* text-shadow:
     2px 2px 0 #a259e6,
     -2px -2px 0 #3ec7e0,
     2px -2px 0 #a259e6,
     -2px 2px 0 #3ec7e0,
     0 0 8px #000;
-  -webkit-text-stroke: 0.5px #1976d2;
+  -webkit-text-stroke: 0.5px #1976d2; */
 }
 
 header .welcome-text {

@@ -1,6 +1,6 @@
 /* Footer layout */
 .main-footer {
-  background: #1a2740;
+  background: #204fa7;
   color: #e3eaf2;
   font-family: 'Segoe UI', Arial, sans-serif;
   padding-top: 48px;
@@ -29,7 +29,7 @@
 }
 
 .footer-title {
-  color: #1976d2;
+  color: #fff;
   font-size: 1.35rem;
   font-weight: 700;
   margin-bottom: 18px;
