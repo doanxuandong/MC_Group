@@ -8,7 +8,7 @@ body {
 .login-bg {
   min-height: 100vh;
   width: 100vw;
-  background: linear-gradient(135deg, #e3f2fd 0%, #90caf9 50%, #1976d2 100%);
+  background: linear-gradient(90deg, #a259e6 0%, #3ec7e0 100%);
   display: flex;
   align-items: center;
   justify-content: center;
