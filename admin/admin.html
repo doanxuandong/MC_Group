@@ -20,6 +20,7 @@
                     <li data-section="ranking"><i class="fa-solid fa-trophy"></i> Quản lý BXH</li>
                     <li data-section="mailbox"><i class="fa-solid fa-inbox"></i> Quản lý hòm thư</li>
                     <li data-section="news"><i class="fa-solid fa-newspaper"></i> Quản lý tin tức</li>
+                    <li data-section="banner"><i class="fa-solid fa-image"></i> Quản lý banner</li>
                 </ul>
             </nav>
         </aside>
@@ -232,6 +233,29 @@
                     </tbody>
                 </table>
             </div>
+            <div class="admin-title-row" style="display:none;">
+                <h1 class="admin-title">Quản lý banner</h1>
+                <button class="add-btn">+ Thêm</button>
+            </div>
+            <div class="admin-section" id="section-banner" style="display:none;">
+                <form action="add_banner.php" method="post" enctype="multipart/form-data" style="margin-bottom:20px;">
+                    <input type="text" name="title" placeholder="Tiêu đề banner" required>
+                    <input type="file" name="image" accept="image/*" required>
+                    <button type="submit">Thêm banner</button>
+                </form>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tiêu đề</th>
+                            <th>Ảnh</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
         </main>
     </div>
     <!-- Modal chi tiết BXH -->
@@ -278,6 +302,7 @@
     <div class="export-excel-btn" id="export-excel-ranking" style="display:none;"><i class="fa-solid fa-file-excel"></i> Xuất Excel</div>
     <div class="export-excel-btn" id="export-excel-mailbox" style="display:none;"><i class="fa-solid fa-file-excel"></i> Xuất Excel</div>
     <div class="export-excel-btn" id="export-excel-news" style="display:none;"><i class="fa-solid fa-file-excel"></i> Xuất Excel</div>
+    <div class="export-excel-btn" id="export-excel-banner" style="display:none;"><i class="fa-solid fa-file-excel"></i> Xuất Excel</div>
     <script>
         // Chuyển tab sidebar
         const titleRows = document.querySelectorAll('.admin-title-row');
