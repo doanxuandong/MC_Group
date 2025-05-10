@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MC - Inside</title>
+    <link rel="stylesheet" href="./css/inside.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <img src=".\image\mc_white.png" alt="MC Group Logo" class="logo">
+        <span class="welcome-text">MC Inside</span>
+        <div class="header-container">
+            <div class="icon-container">
+              <a href="index.html"><i class="fa-solid fa-house header-icon"></i></a>
+              <span class="icon-text">Home</span>
+            </div>
+            <div class="icon-container">
+                <a href="ideas.html"><i class="fa-solid fa-comments header-icon"></i></a>
+                <span class="icon-text">Feed</span>
+            </div>
+          <div class="icon-container">
+            <a href="ranking.html"><i class="fa-solid fa-ranking-star top-logo"></i></a>
+            <span class="top-logo-text">RANKING</span>
+          </div>
+            <div class="icon-container">
+              <a href="inside.html"><i class="fa-solid fa-envelope header-icon"></i></a>
+              <a href="inside.html"><span class="icon-text">Inside</span></a>
+            </div>
+            <div class="icon-container">
+              <a href="news.html">
+                <i class="fa-solid fa-newspaper header-icon"></i>
+              </a>
+              <span class="icon-text">News</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="back-to-top">
+        <i class="fa-solid fa-arrow-up"></i>
+      </div>
+
+      <div class="feedback-section">
+        <div class="feedback-container">
+            <div class="feedback-image">
+                <img src="./image/mcblue.jpg" alt="Feedback">
+                <div class="feedback-note">
+                  <em>Chúng tôi lắng nghe mọi ý kiến đóng góp <br> mang tính xây dựng của bạn</em>
+                </div>
+            </div>
+            <div class="feedback-form">
+                <form id="feedbackForm">
+                    <div class="form-group full-width">
+                        <input type="text" id="fullname" name="fullname" placeholder="Họ và tên" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" id="phone" name="phone" placeholder="Số điện thoại">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <select id="department" name="department" required>
+                            <option value="" disabled selected>Phòng ban *</option>
+                            <option value="it">Phòng IT</option>
+                            <option value="hr">Phòng Nhân sự</option>
+                            <option value="marketing">Phòng Marketing</option>
+                            <option value="sales">Phòng Kinh doanh</option>
+                            <option value="sales">Phòng không không quân</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select id="feedbackType" name="feedbackType" required>
+                            <option value="" disabled selected>Loại ý kiến *</option>
+                            <option value="suggestion">Đề xuất cải tiến</option>
+                            <option value="complaint">Phản ánh vấn đề</option>
+                            <option value="praise">Khen ngợi</option>
+                            <option value="other">Khác</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="subFeedbackTypeGroup" style="display:none;">
+                        <select id="subFeedbackType" name="subFeedbackType">
+                            <!-- Các option con sẽ được thêm bằng JS -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="feedback" name="feedback" placeholder="Ý kiến của bạn *" required></textarea>
+                        <div class="character-count">0 / 5000</div>
+                    </div>
+                    <div class="form-group file-upload">
+                        <label for="fileUpload" class="file-upload-label">
+                            <i class="fas fa-paperclip"></i>
+                            <span>Kéo thả tệp tin của bạn ở đây hoặc chọn tệp tin.</span>
+                            <span class="file-upload-name" style="display:block;margin-top:6px;color:#1456a0;font-size:14px;"></span>
+                        </label>
+                        <input type="file" id="fileUpload" name="fileUpload" multiple>
+                    </div>
+                    <button type="submit" class="submit-button">Gửi ý kiến</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        //Nút Back to Top
+        const backToTop = document.querySelector('.back-to-top');
+        window.addEventListener('scroll', () => {
+          if (window.pageYOffset > 100) {
+            backToTop.classList.add('visible');
+          } else {
+            backToTop.classList.remove('visible');
+          }
+        });
+    
+        backToTop.addEventListener('click', () => {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        });
+
+        window.addEventListener('DOMContentLoaded', function() {
+            var feedbackType = document.getElementById('feedbackType');
+            var subGroup = document.getElementById('subFeedbackTypeGroup');
+            var subSelect = document.getElementById('subFeedbackType');
+
+            var subOptions = {
+                suggestion: [
+                    { value: 'admin', text: 'Cải cách hành chính' },
+                    { value: 'hr', text: 'Bộ máy nhân sự' },
+                    { value: 'process', text: 'Quy trình làm việc' },
+                    { value: 'other', text: 'Khác' }
+                ],
+                complaint: [
+                    { value: 'workplace', text: 'Môi trường làm việc' },
+                    { value: 'policy', text: 'Chính sách' },
+                    { value: 'other', text: 'Khác' }
+                ],
+                praise: [
+                    { value: 'team', text: 'Đồng nghiệp' },
+                    { value: 'manager', text: 'Quản lý' },
+                    { value: 'company', text: 'Công ty' }
+                ]
+            };
+
+            feedbackType.addEventListener('change', function() {
+                var value = this.value;
+                if (subOptions[value]) {
+                    subSelect.innerHTML = subOptions[value].map(function(opt) {
+                        return '<option value="' + opt.value + '">' + opt.text + '</option>';
+                    }).join('');
+                    subGroup.style.display = '';
+                } else {
+                    subGroup.style.display = 'none';
+                    subSelect.innerHTML = '';
+                }
+            });
+
+            // Xử lý kéo thả file
+            var fileUploadLabel = document.querySelector('.file-upload-label');
+            var fileInput = document.getElementById('fileUpload');
+            var fileNameSpan = fileUploadLabel ? fileUploadLabel.querySelector('.file-upload-name') : null;
+            function updateFileName(files) {
+                if (fileNameSpan) {
+                    if (files && files.length > 0) {
+                        var names = [];
+                        for (var i = 0; i < files.length; i++) {
+                            names.push(files[i].name);
+                        }
+                        fileNameSpan.textContent = 'Đã chọn: ' + names.join(', ');
+                    } else {
+                        fileNameSpan.textContent = '';
+                    }
+                }
+            }
+            if (fileUploadLabel && fileInput) {
+                fileInput.addEventListener('change', function() {
+                    updateFileName(fileInput.files);
+                });
+                fileUploadLabel.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    fileUploadLabel.style.borderColor = '#6699ff';
+                });
+                fileUploadLabel.addEventListener('dragleave', function(e) {
+                    e.preventDefault();
+                    fileUploadLabel.style.borderColor = '#ddd';
+                });
+                fileUploadLabel.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    fileUploadLabel.style.borderColor = '#ddd';
+                    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                        fileInput.files = e.dataTransfer.files;
+                        updateFileName(e.dataTransfer.files);
+                    }
+                });
+            }
+        });
+    </script>
+    <script>
+        document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const res = await fetch('/api/inside', {
+            method: 'POST',
+            body: formData
+        });
+        if (res.ok) {
+            alert('Gửi ý kiến thành công!');
+            this.reset();
+        } else {
+            alert('Có lỗi xảy ra!');
+        }
+        });
+    </script>
+</body>
+</html>

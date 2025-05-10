@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Quản trị hệ thống MC Group</title>
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+    .notification {
+        position: fixed;
+        top: 32px;
+        right: 32px;
+        min-width: 220px;
+        background: #fff;
+        color: #222;
+        border-radius: 8px;
+        box-shadow: 0 4px 24px rgba(25, 118, 210, 0.12);
+        padding: 16px 24px;
+        font-size: 16px;
+        z-index: 99999;
+        border-left: 6px solid #1976d2;
+        margin-bottom: 12px;
+        animation: toastIn 0.3s;
+    }
+    .notification.success { border-color: #43a047; }
+    .notification.error { border-color: #e53935; }
+    @keyframes toastIn {
+        from { opacity: 0; transform: translateY(-20px);}
+        to { opacity: 1; transform: translateY(0);}
+    }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <aside class="admin-sidebar">
+            <div class="admin-logo">
+                <i class="fa-solid fa-user-shield"></i> MC Admin
+            </div>
+            <nav class="admin-menu">
+                <ul>
+                    <li class="active" data-section="posts"><i class="fa-solid fa-file-alt"></i> Quản lý bài viết</li>
+                    <li data-section="users"><i class="fa-solid fa-users"></i> Quản lý tài khoản</li>
+                    <li data-section="ranking"><i class="fa-solid fa-trophy"></i> Quản lý BXH</li>
+                    <li data-section="mailbox"><i class="fa-solid fa-inbox"></i> Quản lý hòm thư</li>
+                    <li data-section="news"><i class="fa-solid fa-newspaper"></i> Quản lý tin tức</li>
+                    <li data-section="banner"><i class="fa-solid fa-image"></i> Quản lý banner</li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="admin-main">
+            <div class="admin-title-row">
+                <h1 class="admin-title">Quản lý bài viết</h1>
+                <button class="add-btn">+ Thêm</button>
+            </div>
+            <div class="admin-section" id="section-posts">
+                <div class="admin-filter-bar">
+                    <input type="text" class="admin-filter-input" placeholder="Tiêu đề...">
+                    <input type="text" class="admin-filter-input" placeholder="Người đăng...">
+                    <select class="admin-filter-select">
+                        <option value="">Phòng ban</option>
+                        <option value="it">Phòng IT</option>
+                        <option value="hr">Phòng Nhân sự</option>
+                        <option value="marketing">Phòng Marketing</option>
+                        <option value="sales">Phòng Kinh doanh</option>
+                    </select>
+                    <input type="date" class="admin-filter-input" placeholder="Ngày...">
+                    <button class="admin-filter-btn"><i class="fa-solid fa-filter"></i> Lọc</button>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr><th>ID</th><th>Tiêu đề</th><th>Người đăng</th><th>Phòng ban</th><th>Ngày đăng</th><th>Hành động</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>Bài viết mẫu 1</td><td>Nguyễn Văn A</td><td>Phòng IT</td><td>01/05/2024</td><td><button class="action-btn delete-btn"><i class="fa-solid fa-trash"></i></button><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button><button class="action-btn detail-btn"><i class="fa-solid fa-eye"></i></button></td></tr>
+                        <tr><td>2</td><td>Bài viết mẫu 2</td><td>Trần Thị B</td><td>Phòng Marketing</td><td>02/05/2024</td><td><button class="action-btn delete-btn"><i class="fa-solid fa-trash"></i></button><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button><button class="action-btn detail-btn"><i class="fa-solid fa-eye"></i></button></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="admin-title-row" style="display:none;">
+                <h1 class="admin-title">Quản lý tài khoản</h1>
+                <button class="add-btn">+ Thêm</button>
+            </div>
+            <div class="admin-section" id="section-users" style="display:none;">
+                <div class="admin-filter-bar">
+                    <input type="text" class="admin-filter-input" placeholder="Tìm theo tên...">
+                    <select class="admin-filter-select">
+                        <option value="">Phòng ban</option>
+                        <option value="it">Phòng IT</option>
+                        <option value="hr">Phòng Nhân sự</option>
+                        <option value="marketing">Phòng Marketing</option>
+                        <option value="sales">Phòng Kinh doanh</option>
+                    </select>
+                    <input type="email" class="admin-filter-input" placeholder="Email...">
+                    <select class="admin-filter-select">
+                        <option value="">Vai trò</option>
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                    </select>
+                    <input type="date" class="admin-filter-input" placeholder="Ngày...">
+                    <button class="admin-filter-btn"><i class="fa-solid fa-filter"></i> Lọc</button>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr><th>ID</th><th>Tên người dùng</th><th>Phòng ban</th><th>Email</th><th>Mật khẩu</th><th>Ngày sinh</th><th>Vai trò</th><th>Hành động</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>Nguyễn Văn A</td><td>Phòng IT</td><td>a@email.com</td><td>********</td><td>01/04/2024</td><td>Admin</td><td><button class="action-btn delete-btn"><i class="fa-solid fa-trash"></i></button><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button><button class="action-btn detail-btn"><i class="fa-solid fa-eye"></i></button></td></tr>
+                        <tr><td>2</td><td>Trần Thị B</td><td>Phòng Marketing</td><td>b@email.com</td><td>********</td><td>15/04/2024</td><td>User</td><td><button class="action-btn delete-btn"><i class="fa-solid fa-trash"></i></button><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button><button class="action-btn detail-btn"><i class="fa-solid fa-eye"></i></button></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="admin-title-row" style="display:none;">
+                <h1 class="admin-title">Quản lý bảng xếp hạng</h1>
+                <button class="add-btn">+ Thêm</button>
+            </div>
+            <div class="admin-section" id="section-ranking" style="display:none;">
+                <div class="admin-filter-bar">
+                    <input type="text" class="admin-filter-input" placeholder="Tên bảng xếp hạng...">
+                    <select class="admin-filter-select">
+                        <option value="">Phòng ban</option>
+                        <option value="it">Phòng IT</option>
+                        <option value="hr">Phòng Nhân sự</option>
+                        <option value="marketing">Phòng Marketing</option>
+                        <option value="sales">Phòng Kinh doanh</option>
+                    </select>
+                    <select class="admin-filter-select">
+                        <option value="">Hạng mục đề cử</option>
+                        <option value="nvxuatxac">Nhân viên xuất sắc</option>
+                        <option value="phongbanxuatxac">Phòng ban xuất sắc</option>
+                        <option value="duanxuatxac">Dự án xuất sắc</option>
+                    </select>
+                    <select class="admin-filter-select">
+                        <option value="">Tháng</option>
+                        <option value="1">Tháng 1</option>
+                        <option value="2">Tháng 2</option>
+                        <option value="3">Tháng 3</option>
+                        <option value="4">Tháng 4</option>
+                        <option value="5">Tháng 5</option>
+                        <option value="6">Tháng 6</option>
+                        <option value="7">Tháng 7</option>
+                        <option value="8">Tháng 8</option>
+                        <option value="9">Tháng 9</option>
+                        <option value="10">Tháng 10</option>
+                        <option value="11">Tháng 11</option>
+                        <option value="12">Tháng 12</option>
+                    </select>
+                    <select class="admin-filter-select">
+                        <option value="">Năm</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                    </select>
+                    <button class="admin-filter-btn"><i class="fa-solid fa-filter"></i> Lọc</button>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr><th>ID</th><th>Tên bảng xếp hạng</th><th>Phòng ban</th><th>Hạng mục đề cử</th><th>Tháng</th><th>Năm</th><th>Người tạo</th><th>Hành động</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>Bảng xếp hạng tháng 5</td><td>Phòng IT</td><td>Nhân viên xuất sắc</td><td>5</td><td>2024</td><td>Admin</td><td><button class="action-btn delete-btn"><i class="fa-solid fa-trash"></i></button><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button><button class="action-btn detail-btn"><i class="fa-solid fa-eye"></i></button></td></tr>
+                        <tr><td>1</td><td>Bảng xếp hạng tháng 5</td><td>Phòng IT</td><td>Nhân viên xuất sắc</td><td>5</td><td>2024</td><td>Admin</td><td><button class="action-btn delete-btn"><i class="fa-solid fa-trash"></i></button><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button><button class="action-btn detail-btn"><i class="fa-solid fa-eye"></i></button></td></tr>
+                        <tr><td>2</td><td>Bảng xếp hạng tháng 4</td><td>Phòng Marketing</td><td>Phòng ban xuất sắc</td><td>4</td><td>2024</td><td>Admin</td><td><button class="action-btn delete-btn"><i class="fa-solid fa-trash"></i></button><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button><button class="action-btn detail-btn"><i class="fa-solid fa-eye"></i></button></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="admin-title-row" style="display:none;">
+                <h1 class="admin-title">Quản lý hòm thư</h1>
+                <button class="add-btn">+ Thêm</button>
+            </div>
+            <div class="admin-section" id="section-mailbox" style="display:none;">
+                <div class="admin-filter-bar">
+                    <input type="text" class="admin-filter-input" placeholder="Người gửi...">
+                    <input type="tel" class="admin-filter-input" placeholder="Số điện thoại...">
+                    <select class="admin-filter-select">
+                        <option value="">Phòng ban</option>
+                        <option value="it">Phòng IT</option>
+                        <option value="hr">Phòng Nhân sự</option>
+                        <option value="marketing">Phòng Marketing</option>
+                        <option value="sales">Phòng Kinh doanh</option>
+                    </select>
+                    <select class="admin-filter-select">
+                        <option value="">Loại ý kiến</option>
+                        <option value="feedback">Góp ý</option>
+                        <option value="complaint">Khiếu nại</option>
+                        <option value="suggestion">Đề xuất</option>
+                    </select>
+                    <input type="date" class="admin-filter-input" placeholder="Ngày gửi...">
+                    <button class="admin-filter-btn"><i class="fa-solid fa-filter"></i> Lọc</button>
+                    <button class="admin-filter-btn" id="mailbox-refresh-btn" style="background:#e3eaf2;color:#1976d2;"><i class="fa-solid fa-rotate"></i> Làm mới</button>
+                </div>
+                <div class="table-scroll-x">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th style="min-width:160px;">Người gửi</th>
+                                <th>Email</th>
+                                <th>Số điện thoại</th>
+                                <th>Phòng ban</th>
+                                <th>Loại ý kiến</th>
+                                <th>Chi tiết ý kiến</th>
+                                <th>Tệp đính kèm</th>
+                                <th>Ngày gửi</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dữ liệu sẽ được render bằng JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="mailbox-pagination" style="display:flex;justify-content:center;align-items:center;gap:8px;margin:18px 0 0 0;"></div>
+            </div>
+            <div class="admin-title-row" style="display:none;">
+                <h1 class="admin-title">Quản lý tin tức</h1>
+                <button class="add-btn">+ Thêm</button>
+            </div>
+            <div class="admin-section" id="section-news" style="display:none;">
+                <div class="admin-filter-bar">
+                    <input type="text" class="admin-filter-input" placeholder="Tiêu đề...">
+                    <input type="text" class="admin-filter-input" placeholder="Người viết...">
+                    <select class="admin-filter-select">
+                        <option value="">Phòng ban</option>
+                        <option value="it">Phòng IT</option>
+                        <option value="hr">Phòng Nhân sự</option>
+                        <option value="marketing">Phòng Marketing</option>
+                        <option value="sales">Phòng Kinh doanh</option>
+                    </select>
+                    <input type="date" class="admin-filter-input" placeholder="Ngày...">
+                    <button class="admin-filter-btn"><i class="fa-solid fa-filter"></i> Lọc</button>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr><th>ID</th><th>Tiêu đề tin tức</th><th>Người viết</th><th>Phòng ban</th><th>Ngày đăng</th><th>Hành động</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>Tin tức 1</td><td>Nguyễn Văn A</td><td>Phòng IT</td><td>03/05/2024</td><td><button class="action-btn delete-btn"><i class="fa-solid fa-trash"></i></button><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button><button class="action-btn detail-btn"><i class="fa-solid fa-eye"></i></button></td></tr>
+                        <tr><td>2</td><td>Tin tức 2</td><td>Trần Thị B</td><td>Phòng Marketing</td><td>04/05/2024</td><td><button class="action-btn delete-btn"><i class="fa-solid fa-trash"></i></button><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button><button class="action-btn detail-btn"><i class="fa-solid fa-eye"></i></button></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="admin-title-row" style="display:none;">
+                <h1 class="admin-title">Quản lý banner</h1>
+                <button id="show-banner-form" class="add-btn">+ Thêm</button>
+            </div>
+            <div class="admin-section" id="section-banner" style="display:none;">
+                <div class="admin-filter-bar">
+                    <input type="text" class="admin-filter-input" placeholder="Tìm theo tiêu đề...">
+                    <button class="admin-filter-btn"><i class="fa-solid fa-filter"></i> Lọc</button>
+                </div>
+
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tiêu đề</th>
+                            <th>Ảnh</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="banner-list">
+                        <!-- hiển thị list banner -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    <!-- Modal chi tiết BXH -->
+    <div id="bxhDetailModal" class="modal-bxh" style="display:none;position:fixed;z-index:9999;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.25);align-items:center;justify-content:center;">
+        <div class="modal-bxh-content" style="background:#fff;border-radius:14px;max-width:900px;width:96vw;max-height:90vh;overflow:auto;box-shadow:0 4px 24px rgba(0,0,0,0.18);padding:28px 18px 18px 18px;position:relative;">
+            <button id="closeBxhModal" style="position:absolute;top:12px;right:18px;font-size:22px;background:none;border:none;cursor:pointer;color:#1976d2;"><i class="fa-solid fa-xmark"></i></button>
+            <h2 style="text-align:center;color:#1976d2;margin-bottom:18px;">Chi tiết BXH Tháng/Năm</h2>
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên</th>
+                        <th>Phòng ban</th>
+                        <th>Hạng mục đề cử</th>
+                        <th>Tháng/Năm</th>
+                        <th>Avatar</th>
+                        <th>Vị thứ</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Nguyễn Văn A</td><td>Phòng IT</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/men/1.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>1</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>2</td><td>Trần Thị B</td><td>Phòng Marketing</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/women/2.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>2</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>3</td><td>Lê Văn C</td><td>Phòng IT</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/men/3.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>3</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>4</td><td>Phạm Thị D</td><td>Phòng Nhân sự</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/women/4.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>4</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>5</td><td>Ngô Văn E</td><td>Phòng IT</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/men/5.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>5</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>6</td><td>Đặng Thị F</td><td>Phòng Marketing</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/women/6.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>6</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>7</td><td>Vũ Văn G</td><td>Phòng IT</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/men/7.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>7</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>8</td><td>Trịnh Thị H</td><td>Phòng Nhân sự</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/women/8.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>8</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>9</td><td>Phan Văn I</td><td>Phòng IT</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/men/9.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>9</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>10</td><td>Đỗ Thị K</td><td>Phòng Marketing</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/women/10.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>10</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>11</td><td>Nguyễn Văn L</td><td>Phòng IT</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/men/11.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>11</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>12</td><td>Trần Thị M</td><td>Phòng Nhân sự</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/women/12.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>12</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>13</td><td>Phạm Văn N</td><td>Phòng IT</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/men/13.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>13</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>14</td><td>Ngô Thị O</td><td>Phòng Marketing</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/women/14.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>14</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                    <tr><td>15</td><td>Đặng Văn P</td><td>Phòng IT</td><td>Nhân viên xuất sắc</td><td>5/2024</td><td><img src="https://randomuser.me/api/portraits/men/15.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td><td>15</td><td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Export to Excel button, mỗi section một nút riêng -->
+    <div class="export-excel-btn" id="export-excel-posts" style="display:none;"><i class="fa-solid fa-file-excel"></i> Xuất Excel</div>
+    <div class="export-excel-btn" id="export-excel-users" style="display:none;"><i class="fa-solid fa-file-excel"></i> Xuất Excel</div>
+    <div class="export-excel-btn" id="export-excel-ranking" style="display:none;"><i class="fa-solid fa-file-excel"></i> Xuất Excel</div>
+    <div class="export-excel-btn" id="export-excel-mailbox" style="display:none;"><i class="fa-solid fa-file-excel"></i> Xuất Excel</div>
+    <div class="export-excel-btn" id="export-excel-news" style="display:none;"><i class="fa-solid fa-file-excel"></i> Xuất Excel</div>
+    <div class="export-excel-btn" id="export-excel-banner" style="display:none;"><i class="fa-solid fa-file-excel"></i> Xuất Excel</div>
+    <!-- Modal Thêm Banner -->
+    <style>
+    #bannerModal {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0; top: 0; width: 100vw; height: 100vh;
+        background: rgba(0,0,0,0.25);
+        align-items: center; justify-content: center;
+    }
+    #bannerModal .modal-bxh-content {
+        background: #fff;
+        border-radius: 18px;
+        max-width: 420px;
+        width: 96vw;
+        max-height: 90vh;
+        overflow: auto;
+        box-shadow: 0 8px 32px rgba(25, 118, 210, 0.18);
+        padding: 32px 24px 24px 24px;
+        position: relative;
+        animation: popupShow 0.25s cubic-bezier(.4,2,.6,1) both;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    @keyframes popupShow {
+        from { transform: scale(0.85); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
+    #bannerModal h2 {
+        text-align: center;
+        color: #1976d2;
+        margin-bottom: 22px;
+        font-size: 26px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        width: 100%;
+    }
+    #bannerModal form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    #bannerModal input[type="text"] {
+        width: 80%;
+        min-width: 180px;
+        max-width: 320px;
+        margin-bottom: 16px;
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: 1.5px solid #e3eaf2;
+        font-size: 16px;
+        background: #f1f6fb;
+        color: #222;
+        outline: none;
+        transition: border 0.2s;
+        box-sizing: border-box;
+        display: block;
+    }
+    #bannerModal input[type="text"]:focus {
+        border: 1.5px solid #1976d2;
+    }
+    #bannerModal button.add-btn {
+        width: 80%;
+        min-width: 180px;
+        max-width: 320px;
+        padding: 12px 0;
+        border-radius: 8px;
+        background: linear-gradient(90deg, #42a5f5 0%, #1976d2 100%);
+        color: #fff;
+        border: none;
+        font-size: 18px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(25, 118, 210, 0.10);
+        transition: background 0.18s, box-shadow 0.18s, transform 0.15s;
+        margin-top: 8px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #bannerModal button.add-btn:hover {
+        background: linear-gradient(90deg, #1976d2 0%, #42a5f5 100%);
+        transform: scale(1.04);
+    }
+    #closeBannerModal {
+        position: absolute;
+        top: 12px;
+        right: 18px;
+        font-size: 22px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #1976d2;
+        transition: color 0.18s;
+    }
+    #closeBannerModal:hover {
+        color: #ff5858;
+    }
+    .drop-area {
+        width: 80%;
+        min-width: 180px;
+        max-width: 320px;
+        margin-bottom: 16px;
+        padding: 18px 12px;
+        border: 2px dashed #b0bec5;
+        border-radius: 8px;
+        background: #f8fafc;
+        text-align: left;
+        cursor: pointer;
+        transition: border-color 0.2s, background 0.2s;
+        color: #222;
+        font-size: 16px;
+        position: relative;
+        box-sizing: border-box;
+        display: block;
+    }
+    .drop-area.dragover {
+        border-color: #1976d2;
+        background: #e3f2fd;
+    }
+    #drop-label {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+    }
+    #drop-label i {
+        color: #1976d2;
+        font-size: 18px;
+    }
+    .upload-banner-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px;
+      border: 2px dashed #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: border-color 0.3s ease;
+      background: #f8fafc;
+      font-size: 16px;
+      color: #222;
+      margin-bottom: 0;
+    }
+    .upload-banner-label:hover {
+      border-color: #6699ff;
+    }
+    .upload-banner-label .file-link {
+      color: #1976d2;
+      font-size: 15px;
+      margin-left: 8px;
+      text-decoration: underline;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .banner-preview-box {
+      position: relative;
+      margin-top: 16px;
+      width: 100%;
+      max-width: 320px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px #1976d233;
+      background: #f8fafc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .banner-preview-img {
+      width: 100%;
+      max-height: 180px;
+      object-fit: contain;
+      border-radius: 12px;
+      background: #fff;
+      display: block;
+    }
+    .banner-preview-remove {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(255,255,255,0.85);
+      border: none;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: #ff5858;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #0001;
+      transition: background 0.18s, color 0.18s;
+      z-index: 2;
+    }
+    .banner-preview-remove:hover {
+      background: #ff5858;
+      color: #fff;
+    }
+    </style>
+    <div id="bannerModal" class="modal-bxh">
+        <div class="modal-bxh-content">
+            <button id="closeBannerModal"><i class="fa-solid fa-xmark"></i></button>
+            <h2>Thêm Banner</h2>
+            <form id="banner-form">
+                <input type="text" id="banner-title" placeholder="Tiêu đề banner" required>
+                <div id="drop-area" class="drop-area" style="padding:0;border:none;background:none;">
+                  <input type="file" id="banner-image" accept="image/*" style="display:none;">
+                  <label for="banner-image" id="drop-label" class="upload-banner-label">
+                    <i class="fa fa-paperclip"></i> Kéo thả tệp tin của bạn ở đây hoặc chọn tệp tin.
+                    <span id="file-upload-name"></span>
+                  </label>
+                  <div id="banner-preview"></div>
+                </div>
+                <button type="submit" class="add-btn">Thêm banner</button>
+            </form>
+        </div>
+    </div>
+    <!-- Modal xác nhận xóa -->
+    <div id="delete-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2>Xác nhận xóa</h2>
+            <p>Bạn có chắc chắn muốn xóa banner này?</p>
+            <div class="modal-actions">
+                <button class="cancel-btn" onclick="hideDeleteModal()">Hủy</button>
+                <button class="delete-btn" onclick="confirmDelete()">Xóa</button>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Sửa Banner -->
+    <style>
+    #editBannerModal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0; top: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.25);
+      align-items: center;
+      justify-content: center;
+    }
+    #editBannerModal.show {
+      display: flex;
+    }
+    #editBannerModal .modal-bxh-content {
+      background: #fff;
+      border-radius: 24px;
+      max-width: 420px;
+      width: 96vw;
+      max-height: 90vh;
+      overflow: auto;
+      box-shadow: 0 8px 32px rgba(25, 118, 210, 0.18);
+      padding: 32px 24px 24px 24px;
+      position: relative;
+      animation: popupShow 0.25s cubic-bezier(.4,2,.6,1) both;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #editBannerModal h2 {
+      text-align: center;
+      color: #1976d2;
+      margin-bottom: 22px;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      width: 100%;
+    }
+    #editBannerModal form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #editBannerModal input[type="text"] {
+      width: 80%;
+      min-width: 180px;
+      max-width: 320px;
+      margin-bottom: 16px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1.5px solid #e3eaf2;
+      font-size: 16px;
+      background: #f1f6fb;
+      color: #222;
+      outline: none;
+      transition: border 0.2s;
+      box-sizing: border-box;
+      display: block;
+    }
+    #editBannerModal input[type="text"]:focus {
+      border: 1.5px solid #1976d2;
+    }
+    #editBannerModal button.add-btn {
+      width: 80%;
+      min-width: 180px;
+      max-width: 320px;
+      padding: 12px 0;
+      border-radius: 8px;
+      background: linear-gradient(90deg, #42a5f5 0%, #1976d2 100%);
+      color: #fff;
+      border: none;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(25, 118, 210, 0.10);
+      transition: background 0.18s, box-shadow 0.18s, transform 0.15s;
+      margin-top: 8px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #editBannerModal button.add-btn:hover {
+      background: linear-gradient(90deg, #1976d2 0%, #42a5f5 100%);
+      transform: scale(1.04);
+    }
+    #closeEditBannerModal {
+      position: absolute;
+      top: 12px;
+      right: 18px;
+      font-size: 28px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #1976d2;
+      transition: color 0.18s;
+    }
+    #closeEditBannerModal:hover {
+      color: #ff5858;
+    }
+    #edit-drop-area {
+      width: 80%;
+      min-width: 180px;
+      max-width: 320px;
+      margin-bottom: 16px;
+      padding: 18px 12px;
+      border: 2px dashed #b0bec5;
+      border-radius: 8px;
+      background: #f8fafc;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      color: #222;
+      font-size: 16px;
+      position: relative;
+      box-sizing: border-box;
+      display: block;
+    }
+    #edit-drop-area.dragover {
+      border-color: #1976d2;
+      background: #e3f2fd;
+    }
+    #edit-drop-label {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+    }
+    #edit-drop-label i {
+      color: #1976d2;
+      font-size: 18px;
+    }
+    .upload-banner-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px;
+      border: 2px dashed #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: border-color 0.3s ease;
+      background: #f8fafc;
+      font-size: 16px;
+      color: #222;
+      margin-bottom: 0;
+    }
+    .upload-banner-label:hover {
+      border-color: #6699ff;
+    }
+    .upload-banner-label .file-link {
+      color: #1976d2;
+      font-size: 15px;
+      margin-left: 8px;
+      text-decoration: underline;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .banner-preview-box {
+      position: relative;
+      margin-top: 16px;
+      width: 100%;
+      max-width: 320px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px #1976d233;
+      background: #f8fafc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .banner-preview-img {
+      width: 100%;
+      max-height: 180px;
+      object-fit: contain;
+      border-radius: 12px;
+      background: #fff;
+      display: block;
+    }
+    </style>
+    <div id="editBannerModal" class="modal-bxh">
+      <div class="modal-bxh-content">
+        <button id="closeEditBannerModal"><i class="fa-solid fa-xmark"></i></button>
+        <h2>Sửa Banner</h2>
+        <form id="edit-banner-form">
+          <input type="hidden" id="edit-banner-id">
+          <input type="text" id="edit-banner-title" placeholder="Tiêu đề banner" required>
+          <div id="edit-drop-area" class="drop-area">
+            <input type="file" id="edit-banner-image" accept="image/*" style="display:none;">
+            <label for="edit-banner-image" id="edit-drop-label" class="upload-banner-label">
+              <i class="fa fa-paperclip"></i> Kéo thả tệp tin của bạn ở đây hoặc chọn tệp tin.
+              <span id="edit-file-upload-name"></span>
+            </label>
+            <div id="edit-banner-preview"></div>
+          </div>
+          <button type="submit" class="add-btn">Lưu thay đổi</button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+        // Chuyển tab sidebar
+        const titleRows = document.querySelectorAll('.admin-title-row');
+        const sections = document.querySelectorAll('.admin-section');
+        document.querySelectorAll('.admin-menu li').forEach((item, idx) => {
+            item.onclick = function() {
+                document.querySelectorAll('.admin-menu li').forEach(li => li.classList.remove('active'));
+                this.classList.add('active');
+                sections.forEach(sec => sec.style.display = 'none');
+                titleRows.forEach(row => row.style.display = 'none');
+                const section = this.getAttribute('data-section');
+                document.getElementById('section-' + section).style.display = 'block';
+                titleRows[idx].style.display = 'flex';
+            }
+        });
+        // Mặc định hiển thị title-row đầu tiên
+        if(titleRows.length) titleRows[0].style.display = 'flex';
+        // Hiển thị modal chi tiết BXH khi bấm icon xem chi tiết
+        const bxhDetailModal = document.getElementById('bxhDetailModal');
+        document.querySelectorAll('#section-ranking .detail-btn').forEach(btn => {
+            btn.onclick = function(e) {
+                e.preventDefault();
+                bxhDetailModal.style.display = 'flex';
+            }
+        });
+        document.getElementById('closeBxhModal').onclick = function() {
+            bxhDetailModal.style.display = 'none';
+        };
+        window.addEventListener('click', function(e) {
+            if (e.target === bxhDetailModal) bxhDetailModal.style.display = 'none';
+        });
+        // Hiển thị nút export excel đúng với section đang mở
+        function showExportBtn(section) {
+            document.querySelectorAll('.export-excel-btn').forEach(btn => btn.style.display = 'none');
+            if(section) {
+                const btn = document.getElementById('export-excel-' + section);
+                if(btn) btn.style.display = 'block';
+            }
+        }
+        document.querySelectorAll('.admin-menu li').forEach(item => {
+            item.addEventListener('click', function() {
+                showExportBtn(this.getAttribute('data-section'));
+            });
+        });
+        // Hiển thị mặc định cho mục đầu tiên
+        showExportBtn(document.querySelector('.admin-menu li.active')?.getAttribute('data-section'));
+    </script>
+
+
+    <script>
+    const API_URL = 'http://localhost:3000/api/banners';
+    
+    // Lấy danh sách banner và hiển thị
+    async function fetchBanners() {
+        const res = await fetch(API_URL);
+        const banners = await res.json();
+        const tbody = document.querySelector('#banner-list');
+        tbody.innerHTML = '';
+        banners.forEach((banner, idx) => {
+            tbody.innerHTML += `
+                <tr>
+                    <td>${idx + 1}</td>
+                    <td>${banner.title}</td>
+                    <td><img src="${banner.image_url}" style="max-width:100px"></td>
+                    <td>
+                        <button class="action-btn delete-btn" onclick="showDeleteModal(${banner.id})"><i class="fa-solid fa-trash"></i></button>
+                        <button class="action-btn edit-btn" onclick="editBanner(${banner.id})"><i class="fa-solid fa-pen"></i></button>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+    
+    // Đưa các biến này ra phạm vi toàn cục để các hàm khác cùng dùng
+    const fileNameSpan = document.getElementById('file-upload-name');
+    const bannerPreview = document.getElementById('banner-preview');
+    
+    // Hiển thị modal thêm banner
+    const showBannerFormBtn = document.getElementById('show-banner-form');
+    const bannerModal = document.getElementById('bannerModal');
+    const closeBannerModalBtn = document.getElementById('closeBannerModal');
+    const bannerForm = document.getElementById('banner-form');
+    if (showBannerFormBtn) {
+        showBannerFormBtn.onclick = () => {
+            bannerModal.style.display = 'flex';
+        };
+    }
+    if (closeBannerModalBtn) {
+        closeBannerModalBtn.onclick = () => {
+            bannerModal.style.display = 'none';
+            bannerForm.reset();
+        };
+    }
+    window.addEventListener('click', function(e) {
+        if (e.target === bannerModal) {
+            bannerModal.style.display = 'none';
+            bannerForm.reset();
+        }
+    });
+    
+    // Thêm banner mới (upload file)
+    bannerForm.onsubmit = async function(e) {
+        e.preventDefault();
+        try {
+            const title = document.getElementById('banner-title').value;
+            const image = document.getElementById('banner-image').files[0];
+            
+            if (!title) {
+                showNotification('Vui lòng nhập tiêu đề banner!', 'error');
+                return;
+            }
+            
+            if (!image) {
+                showNotification('Vui lòng chọn ảnh banner!', 'error');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('image', image);
+
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+                throw new Error(data.error || 'Thêm banner thất bại');
+            }
+
+            // Thêm thành công
+            showNotification('Thêm banner thành công!', 'success');
+            bannerModal.style.display = 'none';
+            bannerForm.reset();
+            if (fileNameSpan) fileNameSpan.innerHTML = '';
+            if (bannerPreview) bannerPreview.innerHTML = '';
+            await fetchBanners(); // Refresh danh sách banner
+        } catch (error) {
+            console.error('Error:', error);
+            showNotification(error.message || 'Có lỗi xảy ra khi thêm banner', 'error');
+        }
+    };
+    
+    // Biến lưu ID banner cần xóa
+    let bannerToDelete = null;
+
+    // Hiển thị modal xác nhận xóa
+    function showDeleteModal(id) {
+        bannerToDelete = id;
+        document.getElementById('delete-modal').style.display = 'block';
+    }
+
+    // Ẩn modal xác nhận xóa
+    function hideDeleteModal() {
+        document.getElementById('delete-modal').style.display = 'none';
+        bannerToDelete = null;
+    }
+
+    // Xác nhận xóa banner
+    async function confirmDelete() {
+        if (!bannerToDelete) return;
+        
+        try {
+            const response = await fetch(`${API_URL}/${bannerToDelete}`, {
+                method: 'DELETE'
+            });
+            
+            if (response.ok) {
+                // Refresh danh sách banner
+                fetchBanners();
+                // Ẩn modal
+                hideDeleteModal();
+                // Hiển thị thông báo thành công
+                showNotification('Xóa banner thành công!', 'success');
+            } else {
+                throw new Error('Xóa banner thất bại');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showNotification('Có lỗi xảy ra khi xóa banner', 'error');
+        }
+    }
+
+    // Hiển thị thông báo
+    function showNotification(message, type = 'success') {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        // Tự động ẩn sau 3 giây
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    }
+    
+    window.onload = fetchBanners;
+    </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const dropArea = document.getElementById('drop-area');
+      const fileInput = document.getElementById('banner-image');
+      const dropLabel = document.getElementById('drop-label');
+      const bannerForm = document.getElementById('banner-form');
+      const bannerModal = document.getElementById('bannerModal');
+
+      function updateBannerFileName(files) {
+          if (fileNameSpan) {
+              if (files && files.length > 0) {
+                  let names = [];
+                  for (let i = 0; i < files.length; i++) {
+                      names.push(files[i].name);
+                  }
+                  fileNameSpan.innerHTML = `<a class='file-link' href='#' onclick='return false;'>Đã chọn: ${names.join(', ')}</a>`;
+              } else {
+                  fileNameSpan.innerHTML = '';
+              }
+          }
+      }
+      function showBannerPreview() {
+          if (bannerPreview) bannerPreview.innerHTML = '';
+          if (fileInput.files && fileInput.files.length > 0) {
+              const file = fileInput.files[0];
+              if (file && file.type.startsWith('image/')) {
+                  const reader = new FileReader();
+                  reader.onload = function(e) {
+                      if (bannerPreview) bannerPreview.innerHTML = `
+                        <div class='banner-preview-box'>
+                          <img src='${e.target.result}' class='banner-preview-img' alt='preview'>
+                          <button type='button' class='banner-preview-remove' title='Xóa ảnh' onclick='removeBannerPreview(event)'><i class="fa fa-times"></i></button>
+                        </div>
+                      `;
+                  };
+                  reader.readAsDataURL(file);
+              }
+          }
+      }
+      window.removeBannerPreview = function(e) {
+          e.preventDefault();
+          fileInput.value = '';
+          if (fileNameSpan) fileNameSpan.innerHTML = '';
+          if (bannerPreview) bannerPreview.innerHTML = '';
+      };
+
+      if (dropLabel && fileInput) {
+          fileInput.addEventListener('change', function() {
+              updateBannerFileName(fileInput.files);
+              showBannerPreview();
+          });
+          dropLabel.addEventListener('dragover', function(e) {
+              e.preventDefault();
+              dropLabel.style.borderColor = '#6699ff';
+          });
+          dropLabel.addEventListener('dragleave', function(e) {
+              e.preventDefault();
+              dropLabel.style.borderColor = '#ddd';
+          });
+          dropLabel.addEventListener('drop', function(e) {
+              e.preventDefault();
+              dropLabel.style.borderColor = '#ddd';
+              if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                  fileInput.files = e.dataTransfer.files;
+                  updateBannerFileName(e.dataTransfer.files);
+                  showBannerPreview();
+              }
+          });
+      }
+    });
+    </script>
+    <script>
+    // Modal Sửa Banner
+    const editBannerModal = document.getElementById('editBannerModal');
+    const closeEditBannerModalBtn = document.getElementById('closeEditBannerModal');
+    const editBannerForm = document.getElementById('edit-banner-form');
+    const editBannerId = document.getElementById('edit-banner-id');
+    const editBannerTitle = document.getElementById('edit-banner-title');
+    const editBannerImage = document.getElementById('edit-banner-image');
+    const editFileNameSpan = document.getElementById('edit-file-upload-name');
+    const editBannerPreview = document.getElementById('edit-banner-preview');
+    let currentEditBanner = null;
+
+    function showEditBannerModal(banner) {
+      currentEditBanner = banner;
+      editBannerId.value = banner.id;
+      editBannerTitle.value = banner.title;
+      editBannerImage.value = '';
+      editFileNameSpan.innerHTML = '';
+      editBannerPreview.innerHTML = banner.image_url ? `<div class='banner-preview-box'><img src='${banner.image_url}' class='banner-preview-img' alt='preview'></div>` : '';
+      editBannerModal.classList.add('show');
+    }
+    if (closeEditBannerModalBtn) {
+      closeEditBannerModalBtn.onclick = () => {
+        editBannerModal.classList.remove('show');
+        editBannerForm.reset();
+        editFileNameSpan.innerHTML = '';
+        editBannerPreview.innerHTML = '';
+      };
+    }
+    window.addEventListener('click', function(e) {
+      if (e.target === editBannerModal) {
+        editBannerModal.classList.remove('show');
+        editBannerForm.reset();
+        editFileNameSpan.innerHTML = '';
+        editBannerPreview.innerHTML = '';
+      }
+    });
+    // Xử lý chọn file và preview ảnh mới
+    if (editBannerImage) {
+      editBannerImage.addEventListener('change', function() {
+        if (editBannerImage.files && editBannerImage.files.length > 0) {
+          editFileNameSpan.innerHTML = `<a class='file-link' href='#' onclick='return false;'>Đã chọn: ${editBannerImage.files[0].name}</a>`;
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            editBannerPreview.innerHTML = `<div class='banner-preview-box'><img src='${e.target.result}' class='banner-preview-img' alt='preview'></div>`;
+          };
+          reader.readAsDataURL(editBannerImage.files[0]);
+        } else {
+          editFileNameSpan.innerHTML = '';
+          editBannerPreview.innerHTML = currentEditBanner && currentEditBanner.image_url ? `<div class='banner-preview-box'><img src='${currentEditBanner.image_url}' class='banner-preview-img' alt='preview'></div>` : '';
+        }
+      });
+    }
+    // Sửa banner (gọi khi ấn nút Sửa)
+    async function editBanner(id) {
+      // Lấy dữ liệu banner hiện tại
+      const res = await fetch(`${API_URL}`);
+      const banners = await res.json();
+      const banner = banners.find(b => b.id === id);
+      if (!banner) return;
+      showEditBannerModal(banner);
+    }
+    // Xử lý submit form sửa banner
+    editBannerForm.onsubmit = async function(e) {
+      e.preventDefault();
+      const id = editBannerId.value;
+      const title = editBannerTitle.value;
+      const image = editBannerImage.files[0];
+      try {
+        let response, data;
+        if (image) {
+          // Nếu có ảnh mới, gửi FormData
+          const formData = new FormData();
+          formData.append('title', title);
+          formData.append('image', image);
+          response = await fetch(`${API_URL}/${id}`, {
+            method: 'PUT',
+            body: formData
+          });
+          data = await response.json();
+        } else {
+          // Nếu chỉ sửa tiêu đề
+          response = await fetch(`${API_URL}/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title, image_url: currentEditBanner.image_url })
+          });
+          data = await response.json();
+        }
+        if (!response.ok || data.success === false) {
+          throw new Error(data.error || 'Sửa banner thất bại');
+        }
+        showNotification('Sửa banner thành công!', 'success');
+        editBannerModal.classList.remove('show');
+        editBannerForm.reset();
+        editFileNameSpan.innerHTML = '';
+        editBannerPreview.innerHTML = '';
+        await fetchBanners();
+      } catch (error) {
+        showNotification(error.message || 'Có lỗi xảy ra khi sửa banner', 'error');
+      }
+    };
+    </script>
+
+    <!-- Modal xem chi tiết góp ý -->
+    <div id="feedbackDetailModal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close-modal" onclick="document.getElementById('feedbackDetailModal').style.display='none'">&times;</span>
+        <h2>Chi tiết ý kiến</h2>
+        <div id="feedbackDetailContent"></div>
+    </div>
+    </div>
+    <!-- Modal xác nhận xóa góp ý -->
+    <div id="deleteFeedbackModal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <h3>Bạn có chắc chắn muốn xóa ý kiến này?</h3>
+        <div style="margin-top:16px; display: flex; gap: 18px; justify-content: center;">
+          <button id="confirmDeleteFeedbackBtn" class="add-btn" style="flex:1;">Xóa</button>
+          <button onclick="document.getElementById('deleteFeedbackModal').style.display='none';" class="add-btn" style="background:#ccc;color:#222; flex:1;">Hủy</button>
+        </div>
+    </div>
+    </div>
+    <style>
+    .modal { position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center; z-index:9999;}
+    .modal-content { background:#fff; padding:24px; border-radius:8px; min-width:320px; max-width:90vw; max-height:90vh; overflow:auto; position:relative;}
+    .close-modal { position:absolute; top:8px; right:16px; font-size:24px; cursor:pointer;}
+    </style>
+
+    <script>
+    const FEEDBACK_API_URL = '/api/inside';
+    let feedbackToDelete = null;
+    
+    // Mapping value sang label cho phòng ban và loại ý kiến
+    const departmentMap = {
+      it: "Phòng IT",
+      hr: "Phòng Nhân sự",
+      marketing: "Phòng Marketing",
+      sales: "Phòng Kinh doanh",
+      airforce: "Phòng không không quân"
+    };
+    const feedbackTypeMap = {
+      suggestion: "Đề xuất cải tiến",
+      complaint: "Phản ánh vấn đề",
+      praise: "Khen ngợi",
+      other: "Khác"
+    };
+    const subFeedbackTypeMap = {
+      // suggestion
+      admin: "Cải cách hành chính",
+      hr: "Bộ máy nhân sự",
+      process: "Quy trình làm việc",
+      // complaint
+      workplace: "Môi trường làm việc",
+      policy: "Chính sách",
+      // praise
+      team: "Đồng nghiệp",
+      manager: "Quản lý",
+      company: "Công ty",
+      // other
+      other: "Khác"
+    };
+    
+    const MAILBOX_PAGE_SIZE = 6;
+    let mailboxCurrentPage = 1;
+    let mailboxData = [];
+    let mailboxFilteredData = null;
+
+    function getMailboxFilters() {
+        const name = document.querySelector('#section-mailbox input[placeholder="Người gửi..."]').value.trim().toLowerCase();
+        const phone = document.querySelector('#section-mailbox input[placeholder="Số điện thoại..."]').value.trim();
+        const department = document.querySelector('#section-mailbox select.admin-filter-select:nth-of-type(1)').value;
+        const type = document.querySelector('#section-mailbox select.admin-filter-select:nth-of-type(2)').value;
+        const date = document.querySelector('#section-mailbox input[type="date"]').value;
+        return { name, phone, department, type, date };
+    }
+
+    function filterMailboxData() {
+        const { name, phone, department, type, date } = getMailboxFilters();
+        return mailboxData.filter(item => {
+            let ok = true;
+            if (name && !(item.full_name || '').toLowerCase().includes(name)) ok = false;
+            if (phone && !(item.phone || '').includes(phone)) ok = false;
+            if (department && item.department !== department) ok = false;
+            if (type && item.feedback_type !== type) ok = false;
+            if (date && item.created_at) {
+                const itemDate = new Date(item.created_at);
+                const itemDateStr = itemDate.getFullYear() + '-' +
+                    String(itemDate.getMonth() + 1).padStart(2, '0') + '-' +
+                    String(itemDate.getDate()).padStart(2, '0');
+                if (itemDateStr !== date) ok = false;
+            }
+            return ok;
+        });
+    }
+
+    async function loadMailbox(page = 1, filtered = false) {
+        const res = await fetch(FEEDBACK_API_URL);
+        mailboxData = await res.json();
+        mailboxCurrentPage = page;
+        if (filtered && mailboxFilteredData) {
+            renderMailboxTable(mailboxFilteredData);
+            renderMailboxPagination(mailboxFilteredData);
+        } else {
+            mailboxFilteredData = null;
+            renderMailboxTable(mailboxData);
+            renderMailboxPagination(mailboxData);
+        }
+    }
+
+    function renderMailboxTable(dataArr) {
+        const tbody = document.querySelector('#section-mailbox .admin-table tbody');
+        tbody.innerHTML = '';
+        const start = (mailboxCurrentPage - 1) * MAILBOX_PAGE_SIZE;
+        const end = start + MAILBOX_PAGE_SIZE;
+        const pageData = dataArr.slice(start, end);
+        pageData.forEach(item => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${item.full_name}</td>
+                <td>${item.email || ''}</td>
+                <td>${item.phone || ''}</td>
+                <td>${departmentMap[item.department] || item.department || ''}</td>
+                <td>${feedbackTypeMap[item.feedback_type] || item.feedback_type || ''}</td>
+                <td>${subFeedbackTypeMap[item.sub_feedback_type] || item.sub_feedback_type || ''}</td>
+                <td>${item.attachment ? `<a href="/feedback_files/${item.attachment}" target="_blank">${item.attachment}</a>` : ''}</td>
+                <td>${item.created_at ? new Date(item.created_at).toLocaleDateString() : ''}</td>
+                <td>
+                    <button class="action-btn delete-btn" data-id="${item.id}"><i class="fa-solid fa-trash"></i></button>
+                    <button class="action-btn detail-btn" data-id="${item.id}"><i class="fa-solid fa-eye"></i></button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+        // Gắn lại sự kiện cho nút xem chi tiết và xóa
+        document.querySelectorAll('#section-mailbox .detail-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                showFeedbackDetail(this.dataset.id);
+            });
+        });
+        document.querySelectorAll('#section-mailbox .delete-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                feedbackToDelete = this.dataset.id;
+                document.getElementById('deleteFeedbackModal').style.display = 'flex';
+            });
+        });
+    }
+
+    function renderMailboxPagination(dataArr) {
+        const pagDiv = document.getElementById('mailbox-pagination');
+        pagDiv.innerHTML = '';
+        const total = dataArr.length;
+        const totalPages = Math.ceil(total / MAILBOX_PAGE_SIZE);
+        if (totalPages <= 1) return;
+        // Prev button
+        const prevBtn = document.createElement('button');
+        prevBtn.textContent = '<';
+        prevBtn.disabled = mailboxCurrentPage === 1;
+        prevBtn.onclick = () => {
+            mailboxCurrentPage--;
+            renderMailboxTable(mailboxFilteredData || mailboxData);
+            renderMailboxPagination(mailboxFilteredData || mailboxData);
+        };
+        pagDiv.appendChild(prevBtn);
+        // Page numbers
+        for (let i = 1; i <= totalPages; i++) {
+            const btn = document.createElement('button');
+            btn.textContent = i;
+            if (i === mailboxCurrentPage) btn.style.fontWeight = 'bold';
+            btn.onclick = () => {
+                mailboxCurrentPage = i;
+                renderMailboxTable(mailboxFilteredData || mailboxData);
+                renderMailboxPagination(mailboxFilteredData || mailboxData);
+            };
+            pagDiv.appendChild(btn);
+        }
+        // Next button
+        const nextBtn = document.createElement('button');
+        nextBtn.textContent = '>';
+        nextBtn.disabled = mailboxCurrentPage === totalPages;
+        nextBtn.onclick = () => {
+            mailboxCurrentPage++;
+            renderMailboxTable(mailboxFilteredData || mailboxData);
+            renderMailboxPagination(mailboxFilteredData || mailboxData);
+        };
+        pagDiv.appendChild(nextBtn);
+    }
+
+    // Gắn sự kiện cho nút Lọc
+    const mailboxFilterBtn = document.querySelector('#section-mailbox .admin-filter-btn');
+    if (mailboxFilterBtn) {
+        mailboxFilterBtn.onclick = function() {
+            mailboxFilteredData = filterMailboxData();
+            mailboxCurrentPage = 1;
+            renderMailboxTable(mailboxFilteredData);
+            renderMailboxPagination(mailboxFilteredData);
+        };
+    }
+    // Khi chuyển sang tab "Quản lý hòm thư"
+    document.querySelector('[data-section="mailbox"]').addEventListener('click', () => {
+        mailboxFilteredData = null;
+        loadMailbox(1);
+    });
+
+    // Xem chi tiết góp ý
+    async function showFeedbackDetail(id) {
+        const res = await fetch(FEEDBACK_API_URL + '/' + id);
+        const data = await res.json();
+        let html = `
+            <p><b>Người gửi:</b> ${data.full_name}</p>
+            <p><b>Email:</b> ${data.email || ''}</p>
+            <p><b>Số điện thoại:</b> ${data.phone || ''}</p>
+            <p><b>Phòng ban:</b> ${departmentMap[data.department] || data.department || ''}</p>
+            <p><b>Loại ý kiến:</b> ${feedbackTypeMap[data.feedback_type] || data.feedback_type || ''}</p>
+            <p><b>Loại ý kiến con:</b> ${subFeedbackTypeMap[data.sub_feedback_type] || data.sub_feedback_type || ''}</p>
+            <p><b>Ngày gửi:</b> ${data.created_at ? new Date(data.created_at).toLocaleString() : ''}</p>
+            <p><b>Nội dung ý kiến:</b><br><span style="white-space:pre-line">${data.content}</span></p>
+            ${data.attachment ? `<p><b>Tệp đính kèm:</b> <a href="/feedback_files/${data.attachment}" target="_blank">${data.attachment}</a></p>` : ''}
+        `;
+        document.getElementById('feedbackDetailContent').innerHTML = html;
+        document.getElementById('feedbackDetailModal').style.display = 'flex';
+    }
+    
+    // Xác nhận xóa góp ý
+    document.getElementById('confirmDeleteFeedbackBtn').onclick = async function() {
+        if (!feedbackToDelete) return;
+        try {
+            const res = await fetch(FEEDBACK_API_URL + '/' + feedbackToDelete, { method: 'DELETE' });
+            if (res.ok) {
+                showNotification('Xóa ý kiến thành công!', 'success');
+                loadMailbox();
+            } else {
+                showNotification('Xóa ý kiến thất bại!', 'error');
+            }
+        } catch (e) {
+            showNotification('Có lỗi xảy ra khi xóa!', 'error');
+        }
+        document.getElementById('deleteFeedbackModal').style.display = 'none';
+        feedbackToDelete = null;
+    };
+    </script>
+
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+    <script>
+    // Hàm xuất Excel cho bảng quản lý hòm thư
+    function exportMailboxToExcel() {
+        // Lấy dữ liệu hiện tại (toàn bộ mailboxData, không chỉ trang hiện tại)
+        const headers = [
+            "Người gửi", "Email", "Số điện thoại", "Phòng ban",
+            "Loại ý kiến", "Chi tiết ý kiến", "Tệp đính kèm", "Ngày gửi"
+        ];
+        const rows = mailboxData.map(item => [
+            item.full_name,
+            item.email || '',
+            item.phone || '',
+            departmentMap[item.department] || item.department || '',
+            feedbackTypeMap[item.feedback_type] || item.feedback_type || '',
+            subFeedbackTypeMap[item.sub_feedback_type] || item.sub_feedback_type || '',
+            item.attachment ? (location.origin + "/feedback_files/" + item.attachment) : '',
+            item.created_at ? new Date(item.created_at).toLocaleDateString() : ''
+        ]);
+        const ws = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Mailbox");
+        XLSX.writeFile(wb, "mailbox.xlsx");
+    }
+    // Gắn sự kiện cho nút xuất excel
+    const exportMailboxBtn = document.getElementById('export-excel-mailbox');
+    if (exportMailboxBtn) exportMailboxBtn.onclick = exportMailboxToExcel;
+    </script>
+    <script>
+    const mailboxRefreshBtn = document.getElementById('mailbox-refresh-btn');
+    if (mailboxRefreshBtn) {
+        mailboxRefreshBtn.onclick = function() {
+            // Xóa toàn bộ filter
+            document.querySelector('#section-mailbox input[placeholder="Người gửi..."]').value = '';
+            document.querySelector('#section-mailbox input[placeholder="Số điện thoại..."]').value = '';
+            document.querySelector('#section-mailbox select.admin-filter-select:nth-of-type(1)').value = '';
+            document.querySelector('#section-mailbox select.admin-filter-select:nth-of-type(2)').value = '';
+            document.querySelector('#section-mailbox input[type="date"]').value = '';
+            mailboxFilteredData = null;
+            mailboxCurrentPage = 1;
+            renderMailboxTable(mailboxData);
+            renderMailboxPagination(mailboxData);
+        };
+    }
+    </script>
+</body>
+</html>
