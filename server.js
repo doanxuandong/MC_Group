@@ -37,3 +37,10 @@ const insideRouter = require('./routes/inside');
 app.use('/api/inside', insideRouter);
 
 app.use('/feedback_files', express.static('public/feedback_files'));
+
+app.use('/api/news', require('./routes/news'));
+app.use('/news_images', express.static('public/news_images'));
+
+app.use('/api/users', require('./routes/user'));
+
+app.use('/api/rankings', require('./routes/ranking'));

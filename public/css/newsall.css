@@ -73,11 +73,9 @@ body {
   background: linear-gradient(90deg, #1976d2 0%, #42a5f5 100%);
 }
 .news-all-grid {
-  margin-top: 0;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
   gap: 32px;
-  padding: 0 24px;
 }
 .news-card {
   background: #fff;
@@ -88,6 +86,8 @@ body {
   flex-direction: column;
   transition: transform 0.2s, box-shadow 0.2s;
   min-height: 380px;
+  max-width: 420px;
+  margin: 0 auto;
 }
 .news-card:hover {
   transform: translateY(-4px) scale(1.01);

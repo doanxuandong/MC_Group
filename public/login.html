@@ -34,5 +34,24 @@
       </form>
     </div>
   </div>
+
+  <script>
+    document.querySelector('form').onsubmit = async function(e) {
+      e.preventDefault();
+      const email = document.querySelector('input[type="email"]').value.trim();
+      const password = document.querySelector('input[type="password"]').value;
+      const res = await fetch('/api/users/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await res.json();
+      if (data.success) {
+        window.location.href = 'admin.html';
+      } else {
+        alert(data.message || 'Đăng nhập thất bại!');
+      }
+    };
+    </script>
 </body>
 </html> 

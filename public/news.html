@@ -82,31 +82,8 @@
                 <h2>Tin tức nội bộ mới nhất</h2>
                 <a href="news-all.html" class="see-more-news"><span>Xem thêm</span> <i class="fa-solid fa-arrow-right"></i></a>
             </div>
-            <div class="news-grid">
-                <div class="news-card">
-                    <img src="image/news.jpg" alt="News 1">
-                    <div class="news-content">
-                        <h3>Tiêu đề tin tức 1</h3>
-                        <p>Mô tả ngắn về nội dung tin tức...</p>
-                        <span class="date">24/04/2024</span>
-                    </div>
-                </div>
-                <div class="news-card">
-                    <img src="image/news.jpg" alt="News 2">
-                    <div class="news-content">
-                        <h3>Tiêu đề tin tức 2</h3>
-                        <p>Mô tả ngắn về nội dung tin tức...</p>
-                        <span class="date">24/04/2024</span>
-                    </div>
-                </div>
-                <div class="news-card">
-                    <img src="image/news.jpg" alt="News 3">
-                    <div class="news-content">
-                        <h3>Tiêu đề tin tức 3</h3>
-                        <p>Mô tả ngắn về nội dung tin tức...</p>
-                        <span class="date">24/04/2024</span>
-                    </div>
-                </div>
+            <div class="news-grid" id="latest-news-list">
+                <!-- Card tin tức mới nhất sẽ được render ở đây bằng JS -->
             </div>
         </div>
 
@@ -134,6 +111,31 @@
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
+            });
+        });
+    </script>
+    <script>
+        fetch('/api/news')
+        .then(res => res.json())
+        .then(newsArr => {
+            // Sắp xếp theo ngày mới nhất (nếu backend đã sort thì bỏ qua bước này)
+            newsArr.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+            const latest3 = newsArr.slice(0, 3);
+            const grid = document.getElementById('latest-news-list');
+            grid.innerHTML = '';
+            latest3.forEach(news => {
+            grid.innerHTML += `
+                <a href="news-detail.html?id=${news.id}" class="news-card-link">
+                <div class="news-card">
+                    <img src="${news.image_url || 'image/news.jpg'}" alt="${news.title}">
+                    <div class="news-content">
+                    <h3>${news.title}</h3>
+                    <p>${news.summary || ''}</p>
+                    <span class="date">${news.created_at ? new Date(news.created_at).toLocaleDateString() : ''}</span>
+                    </div>
+                </div>
+                </a>
+            `;
             });
         });
     </script>

@@ -80,27 +80,15 @@
           <a href="news-all.html">Tin tức</a> <span>/</span> <span class="current">Chi tiết tin</span>
         </nav>
         <article class="news-detail-card">
-          <img src="./image/ngang.jpg" alt="Ảnh minh họa tin tức" class="news-detail-img">
-          <h1 class="news-detail-title">Tiêu đề tin tức nổi bật chuẩn SEO</h1>
+          <img id="news-image" src="" alt="Ảnh minh họa tin tức" class="news-detail-img" style="display:none;">
+          <h1 id="news-title" class="news-detail-title"></h1>
           <div class="news-detail-meta">
-            <span><i class="fa-regular fa-calendar"></i> 24/04/2024</span>
-            <span><i class="fa-regular fa-user"></i> Nguyễn Văn A</span>
-            <span><i class="fa-solid fa-building"></i> Phòng IT</span>
+            <span id="news-date"></span>
+            <span id="news-author"></span>
+            <span id="news-department"></span>
           </div>
-          <div class="news-detail-content">
-            <p><strong>Mô tả ngắn:</strong> Đây là đoạn mô tả ngắn về nội dung tin tức, giúp người đọc nhanh chóng nắm bắt thông tin chính.</p>
-            <p>Nội dung chi tiết bài viết tin tức sẽ được trình bày ở đây. Bạn có thể thêm các đoạn văn, hình ảnh, tiêu đề phụ (h2, h3), danh sách, trích dẫn... để bài viết phong phú và chuẩn SEO.</p>
-            <h2>Tiêu đề phụ nổi bật (H2)</h2>
-            <p>Đây là đoạn nội dung mở rộng cho phần tiêu đề phụ, giúp tăng điểm SEO và trải nghiệm người đọc.</p>
-            <ul>
-              <li>Ý chính 1 của bài viết</li>
-              <li>Ý chính 2 của bài viết</li>
-              <li>Ý chính 3 của bài viết</li>
-            </ul>
-            <blockquote>Đây là một trích dẫn nổi bật trong bài viết, giúp tăng tính thuyết phục và chuyên nghiệp.</blockquote>
-            <h3>Tiêu đề phụ nhỏ (H3)</h3>
-            <p>Thêm các đoạn nội dung chi tiết, hình ảnh minh họa, hoặc liên kết nội bộ để tăng sức mạnh SEO.</p>
-          </div>
+          <div id="news-summary" class="news-detail-summary"></div>
+          <div id="news-content" class="news-detail-content"></div>
           <a href="news-all.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Quay lại danh sách</a>
         </article>
       </div>
@@ -160,5 +148,47 @@
   </div>
   <div data-include="footer.html"></div>
   <script src="./js/include.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    if (id) {
+      fetch(`/api/news/${id}`)
+        .then(res => res.json())
+        .then(news => {
+          if (!news || news.error) throw new Error('Không tìm thấy tin tức!');
+          // Tiêu đề
+          document.getElementById('news-title').textContent = news.title || '';
+          // Ngày đăng
+          document.getElementById('news-date').innerHTML = news.created_at
+            ? `<i class="fa-regular fa-calendar"></i> ${new Date(news.created_at).toLocaleDateString()}`
+            : '';
+          // Tác giả
+          document.getElementById('news-author').innerHTML = news.author
+            ? `<i class="fa-regular fa-user"></i> ${news.author}`
+            : '';
+          // Phòng ban
+          document.getElementById('news-department').innerHTML = news.department
+            ? `<i class="fa-solid fa-building"></i> ${news.department}`
+            : '';
+          // Ảnh
+          if (news.image_url) {
+            const img = document.getElementById('news-image');
+            img.src = news.image_url;
+            img.style.display = 'block';
+          }
+          // Mô tả ngắn
+          document.getElementById('news-summary').innerHTML = news.summary
+            ? `<p><strong>Mô tả ngắn:</strong> ${news.summary}</p>`
+            : '';
+          // Nội dung chi tiết
+          document.getElementById('news-content').innerHTML = news.content || '';
+        })
+        .catch(() => {
+          document.querySelector('.news-detail-container').innerHTML = '<div class="news-detail-error">Không tìm thấy tin tức!</div>';
+        });
+    } else {
+      document.querySelector('.news-detail-container').innerHTML = '<div class="news-detail-error">Không tìm thấy tin tức!</div>';
+    }
+  </script>
 </body>
 </html> 

@@ -607,3 +607,7 @@ header:hover .welcome-text,
 header:focus-within .welcome-text {
   display: none !important;
 }
+
+.news-card-link{
+  text-decoration: none;
+}
