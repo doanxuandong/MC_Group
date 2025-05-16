@@ -223,6 +223,9 @@
         opacity: 0.5;
         cursor: not-allowed;
     }
+    .hide-bxh-col {
+        display: none !important;
+    }
     </style>
 </head>
 <body>
@@ -332,11 +335,11 @@
             </div>
             <div class="admin-title-row" style="display:none;">
                 <h1 class="admin-title">Quản lý bảng xếp hạng</h1>
-                <button class="add-btn">+ Thêm</button>
+                <button class="add-btn" id="addRankingBtn">+ Thêm</button>
             </div>
             <div class="admin-section" id="section-ranking" style="display:none;">
                 <div class="admin-filter-bar">
-                    <input type="text" class="admin-filter-input" placeholder="Tên bảng xếp hạng...">
+                    <!-- <input type="text" class="admin-filter-input" placeholder="Tên bảng xếp hạng...">
                     <select class="admin-filter-select">
                         <option value="">Phòng ban</option>
                         <option value="ACC">ACC</option>
@@ -356,12 +359,13 @@
                         <option value="SQC">SQC</option>
                         <option value="VPHN">VPHN</option>
                         <option value="WHR">WHR</option>
-                    </select>
+                    </select> -->
                     <select class="admin-filter-select">
                         <option value="">Hạng mục đề cử</option>
                         <option value="nvxuatxac">Nhân viên xuất sắc</option>
                         <option value="phongbanxuatxac">Phòng ban xuất sắc</option>
                         <option value="duanxuatxac">Dự án xuất sắc</option>
+                        <option value="lanhdaoxuatxac">Lãnh đạo xuất sắc</option>
                     </select>
                     <select class="admin-filter-select">
                         <option value="">Tháng</option>
@@ -388,29 +392,13 @@
                 </div>
                 <table class="admin-table">
                     <thead>
-                        <tr><th>ID</th><th>Tên bảng xếp hạng</th><th>Phòng ban</th><th>Hạng mục đề cử</th><th>Tháng</th><th>Năm</th><th>Người tạo</th><th>Hành động</th></tr>
+                        <tr><th>ID</th><th>Hạng mục đề cử</th><th>Tháng</th><th>Năm</th><th>Hành động</th></tr>
                     </thead>
                     <tbody id="rankingTableBody">
                         <!-- Dữ liệu sẽ được render bằng JS -->
                     </tbody>
                 </table>
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Tên</th>
-                            <th>Phòng ban</th>
-                            <th>Hạng mục đề cử</th>
-                            <th>Tháng/Năm</th>
-                            <th>Avatar</th>
-                            <th>Vị thứ</th>
-                            <th>Hành động</th>
-                        </tr>
-                    </thead>
-                    <tbody id="rankingMembersTableBody">
-                        <!-- Dữ liệu sẽ được render bằng JS -->
-                    </tbody>
-                </table>
+                
             </div>
             <div class="admin-title-row" style="display:none;">
                 <h1 class="admin-title">Quản lý hòm thư</h1>
@@ -543,17 +531,25 @@
         <div class="modal-bxh-content" style="background:#fff;border-radius:14px;max-width:900px;width:96vw;max-height:90vh;overflow:auto;box-shadow:0 4px 24px rgba(0,0,0,0.18);padding:28px 18px 18px 18px;position:relative;">
             <button id="closeBxhModal" style="position:absolute;top:12px;right:18px;font-size:22px;background:none;border:none;cursor:pointer;color:#1976d2;"><i class="fa-solid fa-xmark"></i></button>
             <h2 style="text-align:center;color:#1976d2;margin-bottom:18px;">Chi tiết BXH Tháng/Năm</h2>
-            <button id="addRankingMemberBtn" class="add-btn" style="margin-bottom:12px;">+ Thêm thành viên</button>
+            <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;">
+                <button id="addRankingMemberBtn" class="add-btn">+ Thêm thành viên</button>
+                <button id="importRankingMemberBtn" class="add-btn" style="background:#43a047;">Import Excel</button>
+                <button id="exportRankingMemberBtn" class="add-btn" style="background:#1976d2;">Export Excel</button>
+                <input type="file" id="importRankingMemberInput" accept=".xlsx,.xls" style="display:none;" />
+            </div>
+            <input type="file" id="importRankingMemberInput" accept=".xlsx,.xls" style="display:none;" />
+            <div id="bxhDetailInfo" style="text-align:center;margin-bottom:12px;font-weight:500;color:#1976d2;"></div>
             <table class="admin-table">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Tên</th>
                         <th>Phòng ban</th>
-                        <th>Hạng mục đề cử</th>
-                        <th>Tháng/Năm</th>
+                        <th class="hide-bxh-col">Hạng mục đề cử</th>
+                        <th class="hide-bxh-col">Tháng/Năm</th>
                         <th>Avatar</th>
                         <th>Vị thứ</th>
+                        <th>Số vote</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>
@@ -780,7 +776,8 @@
     document.querySelectorAll('#section-ranking .detail-btn').forEach(btn => {
         btn.onclick = function(e) {
             e.preventDefault();
-            bxhDetailModal.style.display = 'flex';
+            const id = this.closest('tr').dataset.id;
+            showRankingDetailModal(id);
         }
     });
     document.getElementById('closeBxhModal').onclick = function() {
@@ -1881,13 +1878,20 @@
         let userTotal = 0;
 
         // Load danh sách user
-        async function loadUsers(page = 1) {
+        async function loadUsers(page = 1, filter = {}) {
             try {
-                const res = await fetch(`/api/users?page=${page}&pageSize=${USER_PAGE_SIZE}`);
+                let url = `/api/users?page=${page}&pageSize=${USER_PAGE_SIZE}`;
+                if (filter) {
+                    if (filter.full_name) url += `&full_name=${encodeURIComponent(filter.full_name)}`;
+                    if (filter.department) url += `&department=${encodeURIComponent(filter.department)}`;
+                    if (filter.email) url += `&email=${encodeURIComponent(filter.email)}`;
+                    if (filter.role) url += `&role=${encodeURIComponent(filter.role)}`;
+                }
+                const res = await fetch(url);
                 const data = await res.json();
                 if (!data.success) throw new Error(data.error || 'Không thể tải tài khoản');
                 renderUserTable(data.users);
-                renderUserPagination(data.total, page); // Đảm bảo gọi hàm này ở đây
+                renderUserPagination(data.total, page);
                 userCurrentPage = page;
                 userTotal = data.total;
             } catch (err) {
@@ -1925,21 +1929,22 @@
 
             // Gán sự kiện xóa
             document.querySelectorAll('.delete-btn').forEach(btn => {
-                btn.onclick = async function() {
-                    if (!confirm('Bạn có chắc chắn muốn xóa tài khoản này?')) return;
+                btn.onclick = function() {
                     const id = this.dataset.id;
-                    try {
-                        const res = await fetch(`/api/users/${id}`, { method: 'DELETE' });
-                        const data = await res.json();
-                        if (data.success) {
-                            showNotification('Xóa tài khoản thành công!', 'success');
-                            loadUsers(userCurrentPage);
-                        } else {
+                    showConfirmDeleteModal('Bạn có chắc chắn muốn xóa tài khoản này?', async function() {
+                        try {
+                            const res = await fetch(`/api/users/${id}`, { method: 'DELETE' });
+                            const data = await res.json();
+                            if (data.success) {
+                                showNotification('Xóa tài khoản thành công!', 'success');
+                                loadUsers(userCurrentPage);
+                            } else {
+                                showNotification('Có lỗi xảy ra khi xóa!', 'error');
+                            }
+                        } catch (err) {
                             showNotification('Có lỗi xảy ra khi xóa!', 'error');
                         }
-                    } catch (err) {
-                        showNotification('Có lỗi xảy ra khi xóa!', 'error');
-                    }
+                    });
                 };
             });
 
@@ -2097,15 +2102,11 @@
     const RANKING_API_URL = '/api/rankings';
     let rankingData = [];
     let rankingMembersData = [];
+    let currentRankingDetailId = null;
 
     // Load danh sách BXH
     async function loadRankings() {
-        const department = document.querySelector('#section-ranking select.admin-filter-select:nth-of-type(1)').value;
-        const category = document.querySelector('#section-ranking select.admin-filter-select:nth-of-type(2)').value;
-        const month = document.querySelector('#section-ranking select.admin-filter-select:nth-of-type(3)').value;
-        const year = document.querySelector('#section-ranking select.admin-filter-select:nth-of-type(4)').value;
-        const params = new URLSearchParams({ department, category, month, year });
-        const res = await fetch(`${RANKING_API_URL}?${params}`);
+        const res = await fetch('/api/rankings');
         rankingData = await res.json();
         renderRankingTable();
     }
@@ -2115,19 +2116,16 @@
         const tbody = document.getElementById('rankingTableBody');
         tbody.innerHTML = '';
         if (!rankingData.length) {
-            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:20px;">Không có dữ liệu</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;">Không có dữ liệu</td></tr>';
             return;
         }
         rankingData.forEach(item => {
             tbody.innerHTML += `
                 <tr data-id="${item.id}">
                     <td>${item.id}</td>
-                    <td>${item.name}</td>
-                    <td>${item.department}</td>
                     <td>${item.category}</td>
                     <td>${item.month}</td>
                     <td>${item.year}</td>
-                    <td>${item.created_by}</td>
                     <td>
                         <button class="action-btn delete-btn"><i class="fa-solid fa-trash"></i></button>
                         <button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button>
@@ -2138,12 +2136,12 @@
         });
         // Gán sự kiện cho các nút
         document.querySelectorAll('#section-ranking .delete-btn').forEach(btn => {
-            btn.onclick = async function () {
+            btn.onclick = function () {
                 const id = this.closest('tr').dataset.id;
-                if (confirm('Bạn có chắc chắn muốn xóa BXH này?')) {
+                showConfirmDeleteModal('Bạn có chắc chắn muốn xóa BXH này?', async function() {
                     await fetch(`${RANKING_API_URL}/${id}`, { method: 'DELETE' });
                     loadRankings();
-                }
+                });
             };
         });
         document.querySelectorAll('#section-ranking .detail-btn').forEach(btn => {
@@ -2158,6 +2156,18 @@
     // Hiển thị modal chi tiết BXH
     async function showRankingDetailModal(rankingId) {
         currentRankingDetailId = rankingId;
+        // Lấy BXH cha từ rankingData (đã load sẵn)
+        const bxh = rankingData.find(r => r.id == rankingId);
+        // Hiển thị thông tin BXH cha
+        if (bxh) {
+            document.getElementById('bxhDetailInfo').innerHTML = `
+                <span>Hạng mục: <b>${bxh.category}</b></span> | 
+                <span>Tháng: <b>${bxh.month}</b></span> | 
+                <span>Năm: <b>${bxh.year}</b></span>
+            `;
+        } else {
+            document.getElementById('bxhDetailInfo').innerHTML = '';
+        }
         const res = await fetch(`${RANKING_API_URL}/${rankingId}/members`);
         rankingMembersData = await res.json();
         renderRankingMembers();
@@ -2175,19 +2185,59 @@
             tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:20px;">Không có dữ liệu</td></tr>';
             return;
         }
-        rankingMembersData.forEach(item => {
+        // Sort theo position tăng dần
+        const sorted = [...rankingMembersData].sort((a, b) => a.position - b.position);
+        sorted.forEach(item => {
             tbody.innerHTML += `
                 <tr data-id="${item.id}">
                     <td>${item.id}</td>
-                    <td>${item.full_name}</td>
-                    <td>${item.department}</td>
-                    <td>${item.category || ''}</td>
-                    <td>${item.month || ''}/${item.year || ''}</td>
+                    <td>${item.full_name || ''}</td>
+                    <td>${item.department || ''}</td>
+                    <td class="hide-bxh-col">${item.category || ''}</td>
+                    <td class="hide-bxh-col">${item.month || ''}/${item.year || ''}</td>
                     <td>${item.avatar ? `<img src="${item.avatar}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;">` : ''}</td>
                     <td>${item.position}</td>
-                    <td><button class="action-btn edit-btn"><i class="fa-solid fa-pen"></i></button></td>
+                    <td>${item.votes || 0}</td>
+                    <td>
+                        <button class="action-btn edit-btn" title="Sửa"><i class="fa-solid fa-pen"></i></button>
+                        <button class="action-btn delete-btn" title="Xóa" style="margin-left:6px;background:#e53935;color:#fff;"><i class="fa-solid fa-trash"></i></button>
+                    </td>
                 </tr>
             `;
+        });
+        // Sau khi render bảng, gán sự kiện cho nút xóa thành viên BXH
+        document.querySelectorAll('#rankingMembersTableBody .delete-btn').forEach(btn => {
+            btn.onclick = function () {
+                const id = this.closest('tr').dataset.id;
+                // Ẩn modal chi tiết BXH trước khi hiện modal xác nhận xóa
+                const bxhModal = document.getElementById('bxhDetailModal');
+                bxhModal.style.display = 'none';
+                showConfirmDeleteModal('Bạn có chắc chắn muốn xóa thành viên này?', async function() {
+                    try {
+                        await fetch(`/api/rankings/members/${id}`, { method: 'DELETE' });
+                        showNotification('Đã xóa thành viên!', 'success');
+                        showRankingDetailModal(currentRankingDetailId);
+                    } catch (e) {
+                        showNotification('Xóa thất bại!', 'error');
+                    }
+                    // Hiện lại modal chi tiết BXH sau khi xác nhận xóa
+                    bxhModal.style.display = 'flex';
+                });
+                // Khi hủy modal xác nhận xóa, cũng hiện lại modal chi tiết BXH
+                const cancelBtn = document.getElementById('modalCancelDeleteBtn');
+                const modalConfirmDelete = document.getElementById('modalConfirmDelete');
+                const restoreBXHModal = function() {
+                    bxhModal.style.display = 'flex';
+                    cancelBtn.removeEventListener('click', restoreBXHModal);
+                    window.removeEventListener('click', outsideHandler);
+                };
+                cancelBtn.addEventListener('click', restoreBXHModal);
+                // Nếu click ra ngoài modal xác nhận xóa
+                function outsideHandler(e) {
+                    if (e.target === modalConfirmDelete) restoreBXHModal();
+                }
+                window.addEventListener('click', outsideHandler);
+            };
         });
         // TODO: Gán sự kiện cho nút edit-btn nếu cần
     }
@@ -2209,7 +2259,30 @@
         </button>
         <h2 class="custom-modal-title" id="rankingModalTitle">Thêm BXH</h2>
         <form id="rankingForm" autocomplete="off">
-          <input name="name" type="text" class="custom-input" placeholder="Tên BXH" required>
+          <select name="category" class="custom-input" required>
+            <option value="">Chọn hạng mục</option>
+            <option value="nvxuatxac">Nhân viên xuất sắc</option>
+            <option value="phongbanxuatxac">Phòng ban xuất sắc</option>
+            <option value="duanxuatxac">Dự án xuất sắc</option>
+          </select>
+          <input name="month" type="number" min="1" max="12" class="custom-input" placeholder="Tháng" required>
+          <input name="year" type="number" min="2020" max="2100" class="custom-input" placeholder="Năm" required>
+          <div class="custom-modal-actions">
+            <button type="button" class="custom-btn custom-btn-cancel" onclick="closeRankingModal()">Đóng</button>
+            <button type="submit" class="custom-btn custom-btn-save" id="rankingSaveBtn">Lưu BXH</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Modal Thêm/Sửa thành viên BXH -->
+    <div id="rankingMemberModal" class="custom-modal-overlay" style="display:none;">
+      <div class="custom-modal user-modal">
+        <button class="custom-modal-close" onclick="closeRankingMemberModal()" title="Đóng">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <h2 class="custom-modal-title" id="rankingMemberModalTitle">Thêm thành viên BXH</h2>
+        <form id="rankingMemberForm" autocomplete="off">
+          <input name="full_name" type="text" class="custom-input" placeholder="Tên thành viên" required>
           <select name="department" class="custom-input" required>
             <option value="">Chọn phòng ban</option>
             <option value="ACC">ACC</option>
@@ -2230,35 +2303,13 @@
             <option value="VPHN">VPHN</option>
             <option value="WHR">WHR</option>
           </select>
-          <select name="category" class="custom-input" required>
-            <option value="">Chọn hạng mục</option>
-            <option value="nvxuatxac">Nhân viên xuất sắc</option>
-            <option value="phongbanxuatxac">Phòng ban xuất sắc</option>
-            <option value="duanxuatxac">Dự án xuất sắc</option>
-          </select>
-          <input name="month" type="number" min="1" max="12" class="custom-input" placeholder="Tháng" required>
-          <input name="year" type="number" min="2020" max="2100" class="custom-input" placeholder="Năm" required>
-          <input name="created_by" type="number" class="custom-input" placeholder="ID người tạo" required>
-          <div class="custom-modal-actions">
-            <button type="button" class="custom-btn custom-btn-cancel" onclick="closeRankingModal()">Đóng</button>
-            <button type="submit" class="custom-btn custom-btn-save" id="rankingSaveBtn">Lưu BXH</button>
-          </div>
-        </form>
-      </div>
-    </div>
-    <!-- Modal Thêm/Sửa thành viên BXH -->
-    <div id="rankingMemberModal" class="custom-modal-overlay" style="display:none;">
-      <div class="custom-modal user-modal">
-        <button class="custom-modal-close" onclick="closeRankingMemberModal()" title="Đóng">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-        <h2 class="custom-modal-title" id="rankingMemberModalTitle">Thêm thành viên BXH</h2>
-        <form id="rankingMemberForm" autocomplete="off">
-          <input name="user_id" type="number" class="custom-input" placeholder="ID user" required>
+          <input name="category" type="text" class="custom-input" placeholder="Hạng mục đề cử" readonly>
+          <input name="month" type="number" class="custom-input" placeholder="Tháng" readonly>
+          <input name="year" type="number" class="custom-input" placeholder="Năm" readonly>
+          <input name="avatar" type="file" class="custom-input" accept="image/*">
           <input name="position" type="number" class="custom-input" placeholder="Vị trí" required>
           <input name="description" type="text" class="custom-input" placeholder="Mô tả thành tích">
           <input name="votes" type="number" class="custom-input" placeholder="Số vote">
-          <input name="avatar" type="text" class="custom-input" placeholder="Link avatar (nếu có)">
           <div class="custom-modal-actions">
             <button type="button" class="custom-btn custom-btn-cancel" onclick="closeRankingMemberModal()">Đóng</button>
             <button type="submit" class="custom-btn custom-btn-save" id="rankingMemberSaveBtn">Lưu thành viên</button>
@@ -2296,26 +2347,55 @@
       form.setAttribute('data-ranking-id', rankingId);
       document.getElementById('rankingMemberModalTitle').textContent = editData ? 'Sửa thành viên BXH' : 'Thêm thành viên BXH';
       document.getElementById('rankingMemberSaveBtn').textContent = editData ? 'Cập nhật' : 'Lưu thành viên';
+      // Lấy BXH cha
+      const bxh = rankingData.find(r => r.id == rankingId);
+      if (bxh) {
+        form.category.value = bxh.category;
+        form.month.value = bxh.month;
+        form.year.value = bxh.year;
+      }
+      const preview = document.getElementById('rankingMemberAvatarPreview');
       if (editData) {
         for (const key in editData) {
-          if (form[key]) form[key].value = editData[key];
+          if (form[key] && key !== 'avatar') form[key].value = editData[key];
         }
         form.setAttribute('data-edit-id', editData.id);
+        // Hiển thị preview ảnh cũ nếu có
+        if (preview) {
+          if (editData.avatar) {
+            preview.innerHTML = `<img src="${editData.avatar}" style="width:60px;height:60px;border-radius:50%;object-fit:cover;">`;
+          } else {
+            preview.innerHTML = '';
+          }
+        }
+      } else {
+        if (preview) preview.innerHTML = '';
       }
     }
     function closeRankingMemberModal() {
       document.getElementById('rankingMemberModal').style.display = 'none';
       document.getElementById('rankingMemberForm').reset();
       document.getElementById('rankingMemberForm').removeAttribute('data-edit-id');
+      // KHÔNG reset preview avatar nếu đang sửa (giữ lại ảnh cũ)
+      const preview = document.getElementById('rankingMemberAvatarPreview');
+      if (preview) {
+        // Nếu đang sửa (có editData và avatar), giữ lại preview, chỉ reset khi thêm mới hoặc chọn file mới
+        if (!document.getElementById('rankingMemberForm').getAttribute('data-edit-id')) {
+          preview.innerHTML = '';
+        }
+      }
     }
     // Sự kiện nút Thêm BXH
-    const addRankingBtn = document.querySelector('.admin-title-row:nth-of-type(3) .add-btn');
+    const addRankingBtn = document.getElementById('addRankingBtn');
     if (addRankingBtn) addRankingBtn.onclick = () => openRankingModal();
     // Sự kiện submit form BXH
     const rankingForm = document.getElementById('rankingForm');
     rankingForm.onsubmit = async function(e) {
       e.preventDefault();
       const data = Object.fromEntries(new FormData(this).entries());
+      // Đảm bảo các trường số là number
+      if (data.month) data.month = Number(data.month);
+      if (data.year) data.year = Number(data.year);
       const editId = this.getAttribute('data-edit-id');
       let url = '/api/rankings', method = 'POST';
       if (editId) {
@@ -2377,19 +2457,48 @@
     const rankingMemberForm = document.getElementById('rankingMemberForm');
     rankingMemberForm.onsubmit = async function(e) {
       e.preventDefault();
-      const data = Object.fromEntries(new FormData(this).entries());
-      const rankingId = this.getAttribute('data-ranking-id');
-      const editId = this.getAttribute('data-edit-id');
+      const form = this;
+      const rankingId = form.getAttribute('data-ranking-id');
+      const editId = form.getAttribute('data-edit-id');
       let url = `/api/rankings/${rankingId}/members`, method = 'POST';
       if (editId) {
-        url = `/api/ranking-members/${editId}`;
+        url = `/api/rankings/members/${editId}`;
         method = 'PUT';
+      }
+      const avatarFile = form.avatar.files[0];
+      let body, headers;
+      if (avatarFile) {
+        // Gửi FormData nếu có file
+        body = new FormData(form);
+        headers = undefined;
+      } else {
+        // Gửi JSON nếu không có file
+        // Nếu đang sửa, lấy avatar cũ từ dữ liệu thành viên
+        let oldAvatar = '';
+        if (editId) {
+          const oldMember = rankingMembersData.find(m => m.id == editId);
+          if (oldMember && oldMember.avatar) oldAvatar = oldMember.avatar;
+        }
+        body = JSON.stringify({
+          full_name: form.full_name.value,
+          department: form.department.value,
+          position: Number(form.position.value) || 0,
+          description: form.description.value || '',
+          votes: Number(form.votes.value) || 0,
+          avatar: oldAvatar
+        });
+        headers = { 'Content-Type': 'application/json' };
+      }
+      // Kiểm tra trường bắt buộc
+      if (!form.full_name.value || !form.department.value || !form.position.value) {
+        showNotification('Vui lòng nhập đầy đủ thông tin!', 'error');
+        return;
       }
       try {
         const res = await fetch(url, {
           method,
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
+          headers,
+          body
         });
         const result = await res.json();
         if (result.success !== false) {
@@ -2397,12 +2506,154 @@
           closeRankingMemberModal();
           showRankingDetailModal(rankingId);
         } else {
-          showNotification('Có lỗi xảy ra!', 'error');
+          showNotification(result.error || 'Có lỗi xảy ra!', 'error');
         }
       } catch (err) {
         showNotification('Lỗi kết nối server!', 'error');
       }
     };
+    </script>
+    <!-- Export Excel cho thành viên BXH -->
+    <script>
+    document.getElementById('exportRankingMemberBtn').onclick = function() {
+        if (!rankingMembersData.length) {
+            showNotification('Không có dữ liệu để xuất!', 'error');
+            return;
+        }
+        const headers = [
+            'ID', 'Tên', 'Phòng ban', 'Hạng mục đề cử', 'Tháng', 'Năm', 'Avatar', 'Vị trí', 'Mô tả', 'Số vote'
+        ];
+        const rows = rankingMembersData.map(m => [
+            m.id, m.full_name, m.department, m.category, m.month, m.year, m.avatar, m.position, m.description, m.votes
+        ]);
+        const ws = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'RankingMembers');
+        XLSX.writeFile(wb, 'ranking_members.xlsx');
+    };
+    </script>
+    <!-- Import Excel cho thành viên BXH (chỉ giao diện, chưa xử lý lưu DB) -->
+    <script>
+    document.getElementById('importRankingMemberBtn').onclick = function() {
+        document.getElementById('importRankingMemberInput').click();
+    };
+    document.getElementById('importRankingMemberInput').onchange = async function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = async function(evt) {
+            const data = new Uint8Array(evt.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const sheet = workbook.Sheets[workbook.SheetNames[0]];
+            const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+            // Bỏ header
+            const members = rows.slice(1).filter(r => r.length >= 2);
+            if (!members.length) {
+                showNotification('File không có dữ liệu!', 'error');
+                return;
+            }
+            // Gửi từng dòng lên API (mapping đúng thứ tự cột file Excel)
+            let success = 0, fail = 0;
+            for (const row of members) {
+                const [full_name, department, avatar, position, description, votes] = row;
+                const body = { full_name, department, avatar, position, description, votes };
+                try {
+                    await fetch(`${RANKING_API_URL}/${currentRankingDetailId}/members`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(body)
+                    });
+                    success++;
+                } catch (e) { fail++; }
+            }
+            showNotification(`Import thành công: ${success}, lỗi: ${fail}`, 'success');
+            showRankingDetailModal(currentRankingDetailId);
+        };
+        reader.readAsArrayBuffer(file);
+    };
+    </script>
+    <script>
+    // ... existing code ...
+    // Thêm chức năng lọc user và nút làm mới (refresh) cho quản lý tài khoản
+    (function() {
+      const userFilterBar = document.querySelector('#section-users .admin-filter-bar');
+      if (userFilterBar && !document.getElementById('userRefreshBtn')) {
+        // Thêm nút làm mới
+        const refreshBtn = document.createElement('button');
+        refreshBtn.className = 'admin-filter-btn';
+        refreshBtn.id = 'userRefreshBtn';
+        refreshBtn.style.background = '#e3eaf2';
+        refreshBtn.style.color = '#1976d2';
+        refreshBtn.innerHTML = '<i class="fa-solid fa-rotate"></i> Làm mới';
+        userFilterBar.appendChild(refreshBtn);
+        refreshBtn.onclick = function() {
+          document.querySelector('#section-users input[placeholder="Tìm theo tên..."]').value = '';
+          document.querySelector('#section-users select.admin-filter-select:nth-of-type(1)').value = '';
+          document.querySelector('#section-users input[placeholder="Email..."]').value = '';
+          document.querySelector('#section-users select.admin-filter-select:nth-of-type(2)').value = '';
+          // Reset filter và load lại user
+          userCurrentPage = 1;
+          loadUsers(1, {});
+        };
+      }
+      // Sự kiện nút Lọc
+      const userFilterBtn = document.querySelectorAll('#section-users .admin-filter-btn')[0];
+      if (userFilterBtn) {
+        userFilterBtn.onclick = function() {
+          const name = document.querySelector('#section-users input[placeholder="Tìm theo tên..."]').value.trim();
+          const department = document.querySelector('#section-users select.admin-filter-select:nth-of-type(1)').value;
+          const email = document.querySelector('#section-users input[placeholder="Email..."]').value.trim();
+          const role = document.querySelector('#section-users select.admin-filter-select:nth-of-type(2)').value;
+          userCurrentPage = 1;
+          loadUsers(1, { full_name: name, department, email, role });
+        };
+      }
+      // Sửa phân trang để truyền filter hiện tại
+      window.renderUserPagination = function(total, currentPage) {
+        const pagDiv = document.getElementById('userPagination');
+        pagDiv.innerHTML = '';
+        const totalPages = Math.ceil(total / USER_PAGE_SIZE);
+        if (totalPages <= 1) return;
+        // Lấy filter hiện tại
+        const name = document.querySelector('#section-users input[placeholder="Tìm theo tên..."]').value.trim();
+        const department = document.querySelector('#section-users select.admin-filter-select:nth-of-type(1)').value;
+        const email = document.querySelector('#section-users input[placeholder="Email..."]').value.trim();
+        const role = document.querySelector('#section-users select.admin-filter-select:nth-of-type(2)').value;
+        const filter = { full_name: name, department, email, role };
+        // Prev button
+        const prevBtn = document.createElement('button');
+        prevBtn.textContent = '<';
+        prevBtn.className = 'pagination-btn';
+        prevBtn.disabled = currentPage === 1;
+        prevBtn.onclick = () => {
+          if (currentPage > 1) loadUsers(currentPage - 1, filter);
+        };
+        pagDiv.appendChild(prevBtn);
+        // Page numbers
+        for (let i = 1; i <= totalPages; i++) {
+          const btn = document.createElement('button');
+          btn.textContent = i;
+          btn.className = 'pagination-btn';
+          if (i === currentPage) {
+            btn.style.fontWeight = 'bold';
+            btn.style.backgroundColor = '#1976d2';
+            btn.style.color = 'white';
+          }
+          btn.onclick = () => loadUsers(i, filter);
+          pagDiv.appendChild(btn);
+        }
+        // Next button
+        const nextBtn = document.createElement('button');
+        nextBtn.textContent = '>';
+        nextBtn.className = 'pagination-btn';
+        nextBtn.disabled = currentPage === totalPages;
+        nextBtn.onclick = () => {
+          if (currentPage < totalPages) loadUsers(currentPage + 1, filter);
+        };
+        pagDiv.appendChild(nextBtn);
+      };
+    })();
+    // ... existing code ...
     </script>
 </body>
 </html>

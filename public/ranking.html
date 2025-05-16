@@ -39,7 +39,7 @@
 
   <div class="main-container">
     <div class="content">
-      <h2 class="ranking-title">Bảng Xếp Hạng Thành Viên Nổi Bật</h2>
+      <h2 class="ranking-title">Bảng Xếp Hạng MC group</h2>
       <div class="search-candidates">
         <div class="search-bar-group">
           <div class="search-input-wrap">
@@ -48,9 +48,10 @@
           </div>
           <select class="search-select">
             <option>Hạng mục đề cử</option>
-            <option>Lãnh đạo</option>
             <option>Nhân viên xuất sắc</option>
-            <option>Đổi mới sáng tạo</option>
+            <option>Phòng ban xuất sắc</option>
+            <option>Dự án xuất sắc</option>
+            <option>Lãnh đạo xuất sắc</option>
           </select>
           <select class="search-select">
             <option>Đơn vị công tác</option>
@@ -60,9 +61,9 @@
           </select>
         </div>
       </div>
-      <h2 class="top50-title">TOP 50 CÁ NHÂN XUẤT SẮC NHẤT</h2>
+      <h2 class="top50-title">TOP NHÂN VIÊN XUẤT SẮC NHẤT</h2>
       <div class="ranking-list fpt-style">
-        <div class="ranking-card fpt-card">
+        <!-- <div class="ranking-card fpt-card">
           <div class="ranking-avatar-wrap silver-ellipse">
             <img src="./image/tom.jpg" alt="Tom" class="ranking-avatar fpt-avatar">
           </div>
@@ -97,10 +98,10 @@
             <span><i class="fa-solid fa-trophy"></i> 3rd</span>
             <span><i class="fa-solid fa-thumbs-up"></i> 250</span>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="ranking-list normal-list">
-        <div class="ranking-card normal-card">
+        <!-- <div class="ranking-card normal-card">
           <div class="ranking-avatar-wrap">
             <img src="./image/tom.jpg" alt="Tom" class="ranking-avatar fpt-avatar">
           </div>
@@ -275,7 +276,7 @@
           <div class="ranking-stats">
             <span><i class="fa-solid fa-thumbs-up"></i> 85</span>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -300,6 +301,84 @@
         behavior: 'smooth'
       });
     });
+
+    const RANKING_API_URL = '/api/rankings';
+
+    async function loadRanking() {
+      const res = await fetch(RANKING_API_URL);
+      const rankings = await res.json();
+      if (!rankings.length) return;
+      const ranking = rankings[0];
+      const membersRes = await fetch(`${RANKING_API_URL}/${ranking.id}/members`);
+      const members = await membersRes.json();
+      members.sort((a, b) => a.position - b.position);
+      renderTop3(members.slice(0, 3));
+      renderNormalList(members.slice(3));
+    }
+    function renderTop3(topMembers) {
+      const topList = document.querySelector('.ranking-list.fpt-style');
+      topList.innerHTML = '';
+      const medalClass = ['silver-ellipse','first-gold' , 'bronze-ellipse'];
+      // Nếu đủ 3 thành viên, đảo lại thứ tự: [1,0,2] (số 1 ở giữa)
+      if (topMembers.length === 3) {
+        const order = [1, 0, 2];
+        order.forEach((idx, i) => {
+          const m = topMembers[idx];
+          topList.innerHTML += `
+            <div class="ranking-card fpt-card${i === 1 ? ' first-card' : ''}">
+              <div class="ranking-avatar-wrap ${medalClass[i] || ''}">
+                <img src="${m.avatar || './image/tom.jpg'}" alt="${m.full_name}" class="ranking-avatar fpt-avatar${i === 1 ? ' first-avatar' : ''}">
+              </div>
+              <h3 class="ranking-name">${m.full_name}</h3>
+              <div class="ranking-role">${m.department || ''}</div>
+              <div class="ranking-desc">${m.description || ''}</div>
+              <div class="ranking-stats">
+                <span><i class="fa-solid fa-trophy"></i> ${i === 1 ? '1st' : (i === 0 ? '2nd' : '3rd')}</span>
+                <span><i class="fa-solid fa-thumbs-up"></i> ${m.votes || 0}</span>
+              </div>
+            </div>
+          `;
+        });
+      } else {
+        // Nếu không đủ 3, render như cũ
+        topMembers.forEach((m, idx) => {
+          topList.innerHTML += `
+            <div class="ranking-card fpt-card${idx === 0 ? ' first-card' : ''}">
+              <div class="ranking-avatar-wrap ${medalClass[idx] || ''}">
+                <img src="${m.avatar || './image/tom.jpg'}" alt="${m.full_name}" class="ranking-avatar fpt-avatar${idx === 0 ? ' first-avatar' : ''}">
+              </div>
+              <h3 class="ranking-name">${m.full_name}</h3>
+              <div class="ranking-role">${m.department || ''}</div>
+              <div class="ranking-desc">${m.description || ''}</div>
+              <div class="ranking-stats">
+                <span><i class="fa-solid fa-trophy"></i> ${idx + 1}${idx === 0 ? 'st' : idx === 1 ? 'nd' : 'rd'}</span>
+                <span><i class="fa-solid fa-thumbs-up"></i> ${m.votes || 0}</span>
+              </div>
+            </div>
+          `;
+        });
+      }
+    }
+    function renderNormalList(members) {
+      const normalList = document.querySelector('.ranking-list.normal-list');
+      normalList.innerHTML = '';
+      members.forEach((m, idx) => {
+        normalList.innerHTML += `
+          <div class="ranking-card normal-card">
+            <div class="ranking-avatar-wrap">
+              <img src="${m.avatar || './image/tom.jpg'}" alt="${m.full_name}" class="ranking-avatar fpt-avatar">
+            </div>
+            <h3 class="ranking-name">${m.full_name}</h3>
+            <div class="ranking-role">${m.department || ''}</div>
+            <div class="ranking-desc">${m.description || ''}</div>
+            <div class="ranking-stats">
+              <span><i class="fa-solid fa-thumbs-up"></i> <span class="vote-count">${m.votes || 0}</span></span>
+            </div>
+          </div>
+        `;
+      });
+    }
+    window.onload = loadRanking;
   </script>
 </body>
 </html>

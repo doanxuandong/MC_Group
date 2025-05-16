@@ -1,6 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../config/db');
+const multer = require('multer');
+const path = require('path');
+
+// Cấu hình multer để lưu file vào public/avatars
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '../public/avatars'));
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, uniqueSuffix + '-' + file.originalname);
+  }
+});
+const upload = multer({ storage: storage });
 
 // Lấy danh sách bảng xếp hạng
 router.get('/', async (req, res) => {
@@ -20,16 +34,12 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Lấy thành viên trong BXH
+// Lấy thành viên trong BXH (KHÔNG JOIN với users)
 router.get('/:id/members', async (req, res) => {
   try {
     const rankingId = req.params.id;
     const result = await pool.query(
-      `SELECT rm.*, u.full_name, u.department, u.email, u.birth_day, u.role
-       FROM ranking_members rm
-       JOIN users u ON rm.user_id = u.id
-       WHERE rm.ranking_id = $1
-       ORDER BY rm.position ASC`,
+      `SELECT * FROM ranking_members WHERE ranking_id = $1 ORDER BY position ASC`,
       [rankingId]
     );
     res.json(result.rows);
@@ -41,41 +51,51 @@ router.get('/:id/members', async (req, res) => {
 // Thêm bảng xếp hạng mới
 router.post('/', async (req, res) => {
   try {
-    const { name, department, category, month, year, created_by } = req.body;
+    const { category, month, year } = req.body;
     const result = await pool.query(
-      `INSERT INTO rankings (name, department, category, month, year, created_by)
-       VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
-      [name, department, category, month, year, created_by]
+      `INSERT INTO rankings (category, month, year) VALUES ($1, $2, $3) RETURNING *`,
+      [category, month, year]
     );
-    res.json(result.rows[0]);
+    res.json({ success: true, data: result.rows[0] });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
-// Thêm thành viên vào BXH
-router.post('/:id/members', async (req, res) => {
+// Thêm thành viên vào BXH (có hỗ trợ upload avatar)
+router.post('/:id/members', upload.single('avatar'), async (req, res) => {
   try {
     const rankingId = req.params.id;
-    const { user_id, position, description, votes, avatar } = req.body;
+    const { full_name, department, position, description, votes } = req.body;
+    let avatar = '';
+    if (req.file) {
+      avatar = '/avatars/' + req.file.filename; // Đường dẫn public
+    }
     const result = await pool.query(
-      `INSERT INTO ranking_members (ranking_id, user_id, position, description, votes, avatar)
-       VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
-      [rankingId, user_id, position, description, votes || 0, avatar]
+      `INSERT INTO ranking_members (ranking_id, full_name, department, position, description, votes, avatar)
+       VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
+      [rankingId, full_name, department, position, description, votes || 0, avatar]
     );
-    res.json(result.rows[0]);
+    res.json({ success: true, data: result.rows[0] });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
-// Xóa BXH
+// Xóa BXH (xóa cả thành viên liên quan)
 router.delete('/:id', async (req, res) => {
+  const client = await pool.connect();
   try {
-    await pool.query('DELETE FROM rankings WHERE id = $1', [req.params.id]);
+    await client.query('BEGIN');
+    await client.query('DELETE FROM ranking_members WHERE ranking_id = $1', [req.params.id]);
+    await client.query('DELETE FROM rankings WHERE id = $1', [req.params.id]);
+    await client.query('COMMIT');
     res.json({ success: true, message: 'Đã xóa BXH!' });
   } catch (err) {
+    await client.query('ROLLBACK');
     res.status(500).json({ success: false, error: err.message });
+  } finally {
+    client.release();
   }
 });
 
@@ -92,26 +112,59 @@ router.delete('/members/:memberId', async (req, res) => {
 // Sửa BXH
 router.put('/:id', async (req, res) => {
   try {
-    const { name, department, category, month, year, created_by } = req.body;
+    const { category, month, year } = req.body;
     const result = await pool.query(
-      `UPDATE rankings SET name=$1, department=$2, category=$3, month=$4, year=$5, created_by=$6 WHERE id=$7 RETURNING *`,
-      [name, department, category, month, year, created_by, req.params.id]
+      `UPDATE rankings SET category=$1, month=$2, year=$3 WHERE id=$4 RETURNING *`,
+      [category, month, year, req.params.id]
     );
-    res.json(result.rows[0]);
+    res.json({ success: true, data: result.rows[0] });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
-// Sửa thành viên BXH
-router.put('/members/:memberId', async (req, res) => {
+// Sửa thành viên BXH (hỗ trợ upload avatar)
+router.put('/members/:memberId', upload.single('avatar'), async (req, res) => {
+  try {
+    const { full_name, department, position, description, votes } = req.body;
+    let avatar = req.body.avatar || '';
+    if (req.file) {
+      avatar = '/avatars/' + req.file.filename;
+    }
+    const result = await pool.query(
+      `UPDATE ranking_members SET full_name=$1, department=$2, position=$3, description=$4, votes=$5, avatar=$6 WHERE id=$7 RETURNING *`,
+      [full_name, department, position, description, votes || 0, avatar, req.params.memberId]
+    );
+    res.json({ success: true, data: result.rows[0] });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Alias endpoint cho PUT /api/ranking-members/:id
+router.put('/../ranking-members/:memberId', async (req, res) => {
   try {
     const { user_id, position, description, votes, avatar } = req.body;
     const result = await pool.query(
       `UPDATE ranking_members SET user_id=$1, position=$2, description=$3, votes=$4, avatar=$5 WHERE id=$6 RETURNING *`,
       [user_id, position, description, votes, avatar, req.params.memberId]
     );
-    res.json(result.rows[0]);
+    res.json({ success: true, data: result.rows[0] });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Tăng vote cho thành viên BXH (like)
+router.post('/members/:memberId/like', async (req, res) => {
+  try {
+    const memberId = req.params.memberId;
+    const result = await pool.query(
+      'UPDATE ranking_members SET votes = votes + 1 WHERE id = $1 RETURNING *',
+      [memberId]
+    );
+    if (result.rows.length === 0) return res.status(404).json({ success: false, error: 'Không tìm thấy thành viên' });
+    res.json({ success: true, data: result.rows[0] });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }

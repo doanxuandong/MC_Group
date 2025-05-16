@@ -711,9 +711,9 @@
     background: radial-gradient(circle at 50% 60px, #283593 0%, #1976d2 60%, #1a237e 100%);
     border-radius: 32px;
     box-shadow: 0 8px 32px rgba(26, 115, 232, 0.18);
-    padding: 1.5rem 1rem 1rem 1rem;
-    min-width: 220px;
-    max-width: 260px;
+    padding: 2.2rem 1.5rem 1.5rem 1.5rem;
+    min-width: 300px;
+    max-width: 340px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -732,15 +732,15 @@
     justify-content: center;
   }
   .normal-card .fpt-avatar {
-    width: 70px;
-    height: 70px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #fff;
     background: #fff;
   }
   .normal-card .ranking-name {
-    font-size: 1.05rem;
+    font-size: 1.22rem;
     font-weight: bold;
     margin: 0.4rem 0 0.2rem 0;
     color: #fff !important;
@@ -748,13 +748,13 @@
   }
   .normal-card .ranking-role {
     color: #b3e5fc;
-    font-size: 0.95rem;
+    font-size: 1.08rem;
     margin-bottom: 0.4rem;
     text-align: center;
   }
   .normal-card .ranking-desc {
     color: #e3f2fd;
-    font-size: 0.92rem;
+    font-size: 1.05rem;
     text-align: center;
     margin-bottom: 0.8rem;
     min-height: 36px;
@@ -762,7 +762,7 @@
   .normal-card .ranking-stats {
     display: flex;
     gap: 1rem;
-    font-size: 0.98rem;
+    font-size: 1.12rem;
     color: #fff;
     font-weight: bold;
     align-items: center;

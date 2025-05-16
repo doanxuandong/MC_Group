@@ -2,16 +2,40 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../config/db'); // <-- Sử dụng pool từ db.js
 
-// Lấy danh sách user (có phân trang)
+// Lấy danh sách user (có phân trang, lọc)
 router.get('/', async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const pageSize = parseInt(req.query.pageSize) || 10;
     const offset = (page - 1) * pageSize;
-    const total = await pool.query('SELECT COUNT(*) FROM users');
+    // Lọc
+    let where = [];
+    let params = [];
+    let idx = 1;
+    if (req.query.full_name) {
+      where.push(`LOWER(full_name) LIKE $${idx++}`);
+      params.push(`%${req.query.full_name.toLowerCase()}%`);
+    }
+    if (req.query.department) {
+      where.push(`department = $${idx++}`);
+      params.push(req.query.department);
+    }
+    if (req.query.email) {
+      where.push(`LOWER(email) LIKE $${idx++}`);
+      params.push(`%${req.query.email.toLowerCase()}%`);
+    }
+    if (req.query.role) {
+      where.push(`role = $${idx++}`);
+      params.push(req.query.role);
+    }
+    let whereStr = where.length ? 'WHERE ' + where.join(' AND ') : '';
+    // Đếm tổng
+    const total = await pool.query(`SELECT COUNT(*) FROM users ${whereStr}`, params);
+    // Lấy dữ liệu
+    params.push(pageSize, offset);
     const result = await pool.query(
-      'SELECT id, full_name, department, email, birth_day, role, created_at FROM users ORDER BY id DESC LIMIT $1 OFFSET $2',
-      [pageSize, offset]
+      `SELECT id, full_name, department, email, birth_day, role, created_at FROM users ${whereStr} ORDER BY id DESC LIMIT $${idx++} OFFSET $${idx++}`,
+      params
     );
     res.json({
       success: true,
