@@ -10,35 +10,48 @@
 </head>
 <body>
   <header>
-    <img src=".\image\mc_white.png" alt="MC Group Logo" class="logo">
-    <span class="welcome-text">Wellcome to MC Group!</span>
+    <img src="./image/mc_white.png" alt="MC Group Logo" class="logo">
+    <span class="welcome-text">Welcome to MC Group!</span>
+    <div class="mobile-menu-btn"><i class="fa fa-bars"></i></div>
     <div class="header-container">
-        <div class="icon-container">
-          <a href="index.html"><i class="fa-solid fa-house header-icon"></i></a>
-          <span class="icon-text">Home</span>
-        </div>
-        <div class="icon-container">
-          <a href="ideas.html"><i class="fa-solid fa-comments header-icon"></i></a>
-          <span class="icon-text">Feed</span>
-        </div>
+      <div class="icon-container">
+        <a href="index.html"><i class="fa-solid fa-house header-icon"></i></a>
+        <span class="icon-text">Home</span>
+      </div>
+      <div class="icon-container">
+        <a href="ideas.html"><i class="fa-solid fa-comments header-icon"></i></a>
+        <span class="icon-text">Feed</span>
+      </div>
       <div class="icon-container">
         <a href="ranking.html"><i class="fa-solid fa-ranking-star top-logo"></i></a>
         <span class="top-logo-text">RANKING</span>
       </div>
-        <div class="icon-container">
-          <a href="inside.html"><i class="fa-solid fa-envelope header-icon"></i></a>
-          <span class="icon-text">Inside</span>
-        </div>
-        <div class="icon-container">
-          <a href="news.html">
-            <i class="fa-solid fa-newspaper header-icon"></i>
-          </a>
-          <span class="icon-text">News</span>
-        </div>
+      <div class="icon-container">
+        <a href="inside.html"><i class="fa-solid fa-envelope header-icon"></i></a>
+        <span class="icon-text">Inside</span>
       </div>
+      <div class="icon-container">
+        <a href="news.html">
+          <i class="fa-solid fa-newspaper header-icon"></i>
+        </a>
+        <span class="icon-text">News</span>
+      </div>
+    </div>
+    <div class="mobile-menu-popup" id="mobileMenuPopup">
+      <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Đóng menu"><i class="fa fa-times"></i></button>
+      <div class="mobile-menu-list">
+        <a href="index.html" class="mobile-menu-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
+        <a href="ideas.html" class="mobile-menu-item"><i class="fa-solid fa-comments"></i><span>Feed</span></a>
+        <a href="ranking.html" class="mobile-menu-item"><i class="fa-solid fa-ranking-star"></i><span>Ranking</span></a>
+        <a href="inside.html" class="mobile-menu-item"><i class="fa-solid fa-envelope"></i><span>Inside</span></a>
+        <a href="news.html" class="mobile-menu-item"><i class="fa-solid fa-newspaper"></i><span>News</span></a>
+      </div>
+    </div>
   </header>
 
   <div class="container2">
+    <button class="arrow-btn left" id="bannerArrowLeft" aria-label="Trước banner"><i class="fa fa-chevron-left"></i></button>
+    <button class="arrow-btn right" id="bannerArrowRight" aria-label="Sau banner"><i class="fa fa-chevron-right"></i></button>
     <div class="panel active" style="background-image: url('./image/lugear5.jpg')">
       <h3>Monkey D. Luffy</h3>
     </div>
@@ -62,20 +75,130 @@
   </div>
 
   <script>
-    //Nút Back to Top
-    window.addEventListener('scroll', () => {
-      if (window.pageYOffset > 100) {
-        backToTop.classList.add('visible');
-      } else {
-        backToTop.classList.remove('visible');
-      }
-    });
-
-    backToTop.addEventListener('click', () => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
+    document.addEventListener('DOMContentLoaded', function() {
+      // Back to Top
+      const backToTop = document.querySelector('.back-to-top');
+      window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 100) {
+          backToTop.classList.add('visible');
+        } else {
+          backToTop.classList.remove('visible');
+        }
       });
+      backToTop.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+
+      // Mobile menu toggle
+      const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+      const mobileMenuPopup = document.getElementById('mobileMenuPopup');
+      const mobileMenuClose = document.getElementById('mobileMenuClose');
+      if (mobileMenuBtn && mobileMenuPopup && mobileMenuClose) {
+        mobileMenuBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          mobileMenuPopup.classList.toggle('show');
+        });
+        mobileMenuClose.addEventListener('click', function(e) {
+          e.stopPropagation();
+          mobileMenuPopup.classList.remove('show');
+        });
+        document.addEventListener('click', function(e) {
+          if (mobileMenuPopup.classList.contains('show')) {
+            if (!mobileMenuPopup.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+              mobileMenuPopup.classList.remove('show');
+            }
+          }
+        });
+      }
+
+      // Vertical banner carousel for mobile
+      function isMobile() {
+        return window.innerWidth <= 600;
+      }
+      const bannerSlider = document.querySelector('.container2');
+      const arrowLeft = document.getElementById('bannerArrowLeft');
+      const arrowRight = document.getElementById('bannerArrowRight');
+      let panels = bannerSlider ? Array.from(bannerSlider.querySelectorAll('.panel')) : [];
+      let currentIdx = 0;
+      let autoScrollInterval = null;
+      let isPaused = false;
+      let touchStartX = null;
+      let touchEndX = null;
+
+      function showPanel(idx) {
+        panels.forEach((p, i) => {
+          if (i === idx) p.classList.add('active');
+          else p.classList.remove('active');
+        });
+      }
+      function nextPanel() {
+        currentIdx = (currentIdx + 1) % panels.length;
+        showPanel(currentIdx);
+      }
+      function prevPanel() {
+        currentIdx = (currentIdx - 1 + panels.length) % panels.length;
+        showPanel(currentIdx);
+      }
+      function startAutoScroll() {
+        if (autoScrollInterval) clearInterval(autoScrollInterval);
+        autoScrollInterval = setInterval(() => {
+          if (!isPaused) nextPanel();
+        }, 8000); // 8s
+      }
+      function pauseAutoScroll() {
+        isPaused = true;
+      }
+      function resumeAutoScroll() {
+        isPaused = false;
+      }
+      if (bannerSlider && window.innerWidth <= 600) {
+        panels = Array.from(bannerSlider.querySelectorAll('.panel'));
+        if (panels.length > 1) {
+          showPanel(currentIdx);
+          // KHÔNG gọi startAutoScroll();
+          // Pause on hold/touch
+          bannerSlider.addEventListener('mousedown', pauseAutoScroll);
+          bannerSlider.addEventListener('touchstart', function(e) {
+            pauseAutoScroll();
+            if (e.touches && e.touches.length === 1) {
+              touchStartX = e.touches[0].clientX;
+            }
+          });
+          bannerSlider.addEventListener('mouseup', resumeAutoScroll);
+          bannerSlider.addEventListener('mouseleave', resumeAutoScroll);
+          bannerSlider.addEventListener('touchend', function(e) {
+            resumeAutoScroll();
+            if (touchStartX !== null && e.changedTouches && e.changedTouches.length === 1) {
+              touchEndX = e.changedTouches[0].clientX;
+              if (touchEndX - touchStartX > 40) {
+                // Swipe right
+                prevPanel();
+              } else if (touchStartX - touchEndX > 40) {
+                // Swipe left
+                nextPanel();
+              }
+              touchStartX = null;
+              touchEndX = null;
+            }
+          });
+          // Mouse wheel scroll (optional)
+          bannerSlider.addEventListener('wheel', function(e) {
+            pauseAutoScroll();
+            if (e.deltaY > 0 || e.deltaX > 0) nextPanel();
+            else if (e.deltaY < 0 || e.deltaX < 0) prevPanel();
+            setTimeout(resumeAutoScroll, 800);
+          });
+          // Arrow buttons
+          if (arrowLeft) arrowLeft.onclick = function(e) { e.stopPropagation(); pauseAutoScroll(); prevPanel(); setTimeout(resumeAutoScroll, 800); };
+          if (arrowRight) arrowRight.onclick = function(e) { e.stopPropagation(); pauseAutoScroll(); nextPanel(); setTimeout(resumeAutoScroll, 800); };
+        } else {
+          if (arrowLeft) arrowLeft.style.display = 'none';
+          if (arrowRight) arrowRight.style.display = 'none';
+        }
+      }
     });
   </script>
   <script src="./js/script.js"></script>
@@ -88,6 +211,10 @@
         const banners = await res.json();
         const container = document.querySelector('.container2');
         container.innerHTML = '';
+        container.innerHTML += `
+          <button class="arrow-btn left" id="bannerArrowLeft" aria-label="Trước banner"><i class="fa fa-chevron-left"></i></button>
+          <button class="arrow-btn right" id="bannerArrowRight" aria-label="Sau banner"><i class="fa fa-chevron-right"></i></button>
+        `;
         banners.forEach((banner, idx) => {
             container.innerHTML += `
                 <div class="panel${idx === 0 ? ' active' : ''}" style="background-image: url('${banner.image_url}')">
@@ -99,6 +226,6 @@
     }
     
     window.onload = loadBanners;
-    </script>
+  </script>
 </body>
 </html>
